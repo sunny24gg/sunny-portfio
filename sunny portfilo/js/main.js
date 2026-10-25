@@ -439,6 +439,18 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================================== */
   if (compareContainer && compareBeforeWrapper && compareHandle) {
     let isDragging = false;
+    const compareBeforeImg = compareBeforeWrapper.querySelector('.compare-before');
+
+    function syncCompareDimensions() {
+      if (compareContainer && compareBeforeImg) {
+        const w = compareContainer.getBoundingClientRect().width;
+        if (w > 0) {
+          compareBeforeImg.style.width = `${w}px`;
+        }
+      }
+    }
+    syncCompareDimensions();
+    window.addEventListener('resize', syncCompareDimensions);
 
     function updateSlider(clientX) {
       const rect = compareContainer.getBoundingClientRect();

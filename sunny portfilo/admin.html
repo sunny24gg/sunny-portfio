@@ -86,9 +86,10 @@
             <span class="fb-dot"></span>
             <span>Firebase Cloud Live</span>
           </div>
-          <a href="index.html" target="_blank" class="btn-ghost" title="Open Portfolio in new tab">
+          <a href="index.html" target="_blank" class="btn-ghost btn-view-live" title="Open Portfolio in new tab">
             <i data-lucide="external-link"></i>
-            <span>View Live Portfolio</span>
+            <span class="nav-text-desktop">View Live Portfolio</span>
+            <span class="nav-text-mobile">Live Site</span>
           </a>
           <button class="btn-ghost btn-logout" id="btnLogout">
             <i data-lucide="log-out"></i>
@@ -220,7 +221,7 @@
               <h1 class="pane-title">Contact Form Inquiries</h1>
               <p class="pane-subtitle">Direct submissions labeled by their origin form (Filmmaking vs Video Editing).</p>
             </div>
-            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <div class="pane-header-actions" id="inquiryHeaderActions">
               <button class="btn-ghost" id="btnAddTestEditorInquiry" title="Simulate a message from the Video Editor form">
                 <i data-lucide="plus"></i>
                 <span>+ Test Editor Inquiry</span>
@@ -347,7 +348,7 @@
               <h1 class="pane-title">Client Reviews & Satisfaction</h1>
               <p class="pane-subtitle">Manage client testimonials, 5-star feedback, and satisfaction ratings shown on the portfolio.</p>
             </div>
-            <button class="btn-primary" id="btnOpenAddReview" style="margin:0; width:auto; padding:0.65rem 1.25rem;">
+            <button class="btn-primary btn-pane-action" id="btnOpenAddReview">
               <i data-lucide="plus-circle"></i>
               <span>Add New Review</span>
             </button>

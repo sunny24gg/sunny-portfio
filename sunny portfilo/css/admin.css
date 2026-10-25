@@ -279,17 +279,28 @@ body {
   position: sticky;
   top: 0;
   z-index: 50;
-  height: 68px;
+  min-height: 64px;
+  width: 100%;
 }
 
 .dash-nav-container {
   max-width: 1440px;
   margin: 0 auto;
-  height: 100%;
-  padding: 0 1.5rem;
+  min-height: 64px;
+  padding: 0.65rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.nav-text-desktop {
+  display: inline;
+}
+
+.nav-text-mobile {
+  display: none;
 }
 
 .dash-brand {
@@ -297,6 +308,7 @@ body {
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .dash-brand-name {
@@ -322,7 +334,8 @@ body {
 .dash-nav-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.85rem;
+  flex-wrap: wrap;
 }
 
 .firebase-status-badge {
@@ -513,6 +526,19 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.pane-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-pane-action {
+  margin: 0 !important;
+  width: auto;
+  padding: 0.65rem 1.25rem;
 }
 
 .pane-title {
@@ -749,6 +775,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  word-break: break-all;
+  max-width: 100%;
 }
 
 .inquiry-email:hover {
@@ -757,13 +785,14 @@ body {
 
 .inquiry-service-scope {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   margin-bottom: 1rem;
   font-size: 0.85rem;
   color: var(--text-secondary);
   background: rgba(0, 0, 0, 0.25);
   padding: 0.75rem 1rem;
   border-radius: 10px;
+  flex-wrap: wrap;
 }
 
 .inquiry-service-scope span strong {
@@ -981,7 +1010,7 @@ body {
 /* Reviews Manager */
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: 1.25rem;
 }
 
@@ -993,6 +1022,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .review-card-top {
@@ -1141,18 +1172,51 @@ body {
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* Responsive */
+/* ===================================================================
+   RESPONSIVE DESIGN SYSTEM FOR ADMIN DASHBOARD
+   =================================================================== */
+
+@media (max-width: 1024px) {
+  .dash-main {
+    grid-template-columns: 230px 1fr;
+    gap: 1.25rem;
+    padding: 1.25rem 1rem;
+  }
+}
+
 @media (max-width: 992px) {
   .dash-main {
     grid-template-columns: 1fr;
+    padding: 1.25rem 1rem;
+    gap: 1.25rem;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   .dash-sidebar {
+    min-width: 0;
+    width: 100%;
     flex-direction: row;
     overflow-x: auto;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.6rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    gap: 0.5rem;
+  }
+  .dash-sidebar::-webkit-scrollbar {
+    height: 4px;
+  }
+  .dash-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(245, 207, 104, 0.3);
+    border-radius: 4px;
   }
   .sidebar-tab-btn {
     white-space: nowrap;
+    padding: 0.65rem 1rem;
+    flex-shrink: 0;
+    width: auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--admin-border);
   }
   .sidebar-info-card {
     display: none;
@@ -1162,5 +1226,252 @@ body {
   }
   .preview-stats-bar {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dash-navbar {
+    min-height: auto;
+    padding: 0.6rem 0;
+  }
+  .dash-nav-container {
+    flex-direction: row;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+  .nav-text-desktop {
+    display: none;
+  }
+  .nav-text-mobile {
+    display: inline;
+  }
+  .firebase-status-badge span:last-child {
+    display: none;
+  }
+  .dash-nav-actions {
+    gap: 0.45rem;
+  }
+  .btn-ghost {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.75rem;
+  }
+  .kpi-card {
+    padding: 1.15rem 0.95rem;
+  }
+  .kpi-value {
+    font-size: 1.65rem;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+  .pane-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+  .pane-header-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pane-header-actions button,
+  .pane-header-actions a,
+  .pane-header > .btn-primary,
+  .pane-header > .btn-ghost {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-width: 120px;
+  }
+  .inquiry-actions {
+    justify-content: flex-start;
+  }
+  .inquiry-actions .btn-action {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-width: 100px;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+  .admin-toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .admin-toast {
+    width: 100%;
+    justify-content: center;
+  }
+  #statsForm button[type="submit"],
+  #portfolioControlsForm button[type="submit"] {
+    max-width: 100% !important;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dash-nav-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0.5rem 0.85rem;
+  }
+  .dash-brand {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .dash-nav-actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+  .dash-nav-actions .btn-ghost,
+  .dash-nav-actions .firebase-status-badge {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.74rem;
+  }
+  .dash-nav-actions .btn-ghost i {
+    width: 14px;
+    height: 14px;
+  }
+  .dash-main {
+    padding: 1rem 0.75rem;
+  }
+  .pane-title {
+    font-size: 1.35rem;
+  }
+  .pane-subtitle {
+    font-size: 0.82rem;
+  }
+  .filter-pills-bar {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.4rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.4rem;
+  }
+  .filter-pills-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .filter-pill {
+    flex-shrink: 0;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.78rem;
+  }
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+  .kpi-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+  .kpi-value {
+    font-size: 1.4rem;
+  }
+  .kpi-note {
+    font-size: 0.72rem;
+  }
+  .inquiry-card {
+    padding: 1.15rem 0.85rem;
+  }
+  .inquiry-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .inquiry-client-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .inquiry-service-scope {
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.6rem 0.75rem;
+  }
+  .inquiry-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .inquiry-actions .btn-action {
+    width: 100%;
+    flex: 1 1 100%;
+    justify-content: center;
+    padding: 0.6rem;
+  }
+  .review-admin-card {
+    padding: 1.15rem 0.85rem;
+  }
+  .review-card-actions {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .preview-stats-bar {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .preview-stat-item {
+    padding: 0.55rem 0.35rem;
+  }
+  .preview-stat-val {
+    font-size: 1.15rem;
+  }
+  .preview-stat-lbl {
+    font-size: 0.68rem;
+  }
+  .modal-content {
+    padding: 1.35rem 1rem;
+    margin: 0.5rem;
+    max-width: calc(100vw - 20px);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-header h3 {
+    font-size: 1.15rem;
+  }
+  #addReviewForm .form-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .input-field,
+  .form-select,
+  .form-textarea {
+    font-size: 16px !important; /* Prevents auto-zoom on mobile browsers */
+  }
+  .login-card {
+    padding: 1.5rem 1.15rem;
+    border-radius: 16px;
+    margin: 0.5rem;
+    max-width: calc(100vw - 20px);
+  }
+  .login-header h1 {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .preview-stats-bar {
+    grid-template-columns: 1fr;
+  }
+  .sidebar-tab-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  .dash-brand-name {
+    font-size: 1.15rem;
   }
 }
