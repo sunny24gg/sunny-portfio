@@ -1034,10 +1034,80 @@ body {
 }
 
 .stars-row {
-  color: #fbbf24;
   display: flex;
+  align-items: center;
   gap: 0.15rem;
-  font-size: 0.9rem;
+}
+
+.star-svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.stars-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.stars-badge .star-svg {
+  width: 12px;
+  height: 12px;
+}
+.stars-badge .star-svg.unfilled {
+  color: rgba(255, 255, 255, 0.16);
+  opacity: 0.4;
+}
+.stars-badge.rating-5 {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+.stars-badge.rating-5 .star-svg.filled {
+  color: #fbbf24;
+  fill: #fbbf24;
+}
+.stars-badge.rating-4 {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+.stars-badge.rating-4 .star-svg.filled {
+  color: #34d399;
+  fill: #34d399;
+}
+.stars-badge.rating-3 {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.stars-badge.rating-3 .star-svg.filled {
+  color: #38bdf8;
+  fill: #38bdf8;
+}
+.stars-badge.rating-2 {
+  color: #fb923c;
+  background: rgba(251, 146, 60, 0.12);
+  border: 1px solid rgba(251, 146, 60, 0.3);
+}
+.stars-badge.rating-2 .star-svg.filled {
+  color: #fb923c;
+  fill: #fb923c;
+}
+.stars-badge.rating-1 {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+.stars-badge.rating-1 .star-svg.filled {
+  color: #f87171;
+  fill: #f87171;
 }
 
 .review-text-quote {
@@ -1475,3 +1545,284 @@ body {
     font-size: 1.15rem;
   }
 }
+
+/* ==================== TO-DO WORKS MANAGER ==================== */
+.todo-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.todo-stat-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.todo-stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.todo-stat-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.todo-stat-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 0.2rem;
+}
+
+.todo-stat-val {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.todo-works-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+  gap: 1.25rem;
+}
+
+.todo-work-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.todo-work-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 207, 104, 0.3);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.todo-work-card.status-completed {
+  border-left: 4px solid var(--green);
+  opacity: 0.85;
+}
+
+.todo-work-card.status-in_progress {
+  border-left: 4px solid var(--cyan);
+}
+
+.todo-work-card.status-pending {
+  border-left: 4px solid #fbbf24;
+}
+
+.todo-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.todo-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 0.35rem;
+}
+
+.todo-work-card.status-completed .todo-card-title {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.todo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.todo-badge.pending {
+  background: rgba(234, 179, 8, 0.15);
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  color: #fbbf24;
+}
+
+.todo-badge.in_progress {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+}
+
+.todo-badge.completed {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #4ade80;
+}
+
+.todo-card-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1.15rem;
+  white-space: pre-line;
+}
+
+.todo-meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.todo-amount-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(245, 207, 104, 0.1);
+  border: 1px solid rgba(245, 207, 104, 0.3);
+  color: var(--gold);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.84rem;
+}
+
+.todo-time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #7dd3fc;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.todo-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--admin-border);
+  margin-top: auto;
+}
+
+.todo-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-todo-status {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--admin-border);
+  color: var(--text-secondary);
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s;
+}
+
+.btn-todo-status:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.overview-todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  margin-bottom: 0.65rem;
+  transition: border-color 0.2s;
+}
+
+.overview-todo-item:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ===== INQUIRY ATTACH CHIPS (Project Link / File) ===== */
+.inquiry-attach-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.1rem;
+}
+
+.inq-attach-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.inq-attach-chip i {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.inq-attach-chip.link {
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  color: #00f2fe;
+}
+
+.inq-attach-chip.link:hover {
+  background: rgba(0, 242, 254, 0.16);
+  border-color: rgba(0, 242, 254, 0.5);
+}
+
+.inq-attach-chip.file {
+  background: rgba(245, 207, 104, 0.08);
+  border: 1px solid rgba(245, 207, 104, 0.25);
+  color: #f5cf68;
+}
+

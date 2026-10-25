@@ -23,74 +23,9 @@ const DEFAULT_PORTFOLIO_DATA = {
     availabilitySub: "Worldwide Remote Video Editing & On-Location Shoot Direction.",
     announcement: ""
   },
-  reviews: [
-    {
-      id: "rev_1",
-      name: "Arjun Mehta",
-      role: "Content Creator & Founder",
-      company: "Pulse Media (1.2M Subs)",
-      category: "editor",
-      rating: 5,
-      text: "Sunny transformed our YouTube retention rates from 38% to over 65%. His pacing, motion tracking, and sound design are second to none in this industry.",
-      date: "2026-09-15"
-    },
-    {
-      id: "rev_2",
-      name: "Sarah Jenkins",
-      role: "Music Video Director & Artist",
-      company: "Elysian Records UK",
-      category: "filmmaker",
-      rating: 5,
-      text: "Working with Sunny on our narrative visual album was breathtaking. His eye for anamorphic lighting, camera movement, and emotional color grades brought tears to our eyes.",
-      date: "2026-08-28"
-    },
-    {
-      id: "rev_3",
-      name: "Vikram Sethi",
-      role: "Creative Director",
-      company: "Apex Brand Studio",
-      category: "editor",
-      rating: 5,
-      text: "Delivered a commercial 30s broadcast spot under a 48-hour deadline without breaking a sweat. The sound design alone elevated the entire production.",
-      date: "2026-10-02"
-    },
-    {
-      id: "rev_4",
-      name: "Elena Rostova",
-      role: "Indie Film Producer",
-      company: "Silverlight Cine",
-      category: "filmmaker",
-      rating: 5,
-      text: "Sunny's directorial vision is mature far beyond his years. Precise scene blocking, incredible work with actors, and a final Kodak 2383 grade that won festival honors.",
-      date: "2026-10-18"
-    }
-  ],
-  inquiries: [
-    {
-      id: "inq_1",
-      name: "Rohan Gupta",
-      email: "rohan.g@techflow.io",
-      service: "video-editing",
-      sourceForm: "Video Editor Form",
-      mode: "editor",
-      timeline: "2 weeks turnaround",
-      message: "Looking for a high-retention video editor for our series of product launch videos and Instagram Reels. We love your style and attention to rhythm!",
-      date: "2026-10-24 14:32",
-      status: "new"
-    },
-    {
-      id: "inq_2",
-      name: "Maya Krishnan",
-      email: "maya@indiefilms.co",
-      service: "filmmaking",
-      sourceForm: "Filmmaking Form",
-      mode: "filmmaker",
-      timeline: "Shoot starts next month",
-      message: "We have a 15-minute narrative drama script ready and want Sunny to direct and oversee the cinematography in Mumbai/Hyderabad.",
-      date: "2026-10-23 09:15",
-      status: "contacted"
-    }
-  ]
+  reviews: [],
+  inquiries: [],
+  todoWorks: []
 };
 
 // Storage Key
@@ -106,6 +41,7 @@ const VALID_PASSWORD = "Sunny@24y";
 // App State
 let portfolioData = null;
 let currentInquiryFilter = 'all';
+let currentTodoFilter = 'all';
 
 // Initialize Data
 function loadPortfolioData() {
@@ -113,24 +49,33 @@ function loadPortfolioData() {
   if (saved) {
     try {
       portfolioData = JSON.parse(saved);
-      // Ensure inquiries array exists
+      // Ensure inquiries array exists and strip out default demo inquiries
       if (!Array.isArray(portfolioData.inquiries)) {
-        portfolioData.inquiries = DEFAULT_PORTFOLIO_DATA.inquiries;
+        portfolioData.inquiries = [];
+      } else {
+        portfolioData.inquiries = portfolioData.inquiries.filter(i => i.id !== 'inq_1' && i.id !== 'inq_2');
       }
       if (!portfolioData.stats) {
         portfolioData.stats = DEFAULT_PORTFOLIO_DATA.stats;
       }
-      if (!Array.isArray(portfolioData.reviews)) {
-        portfolioData.reviews = DEFAULT_PORTFOLIO_DATA.reviews;
+      // Ensure reviews data is reset to empty
+      portfolioData.reviews = [];
+      // Ensure todoWorks array exists
+      if (!Array.isArray(portfolioData.todoWorks)) {
+        portfolioData.todoWorks = [];
       }
       if (!portfolioData.settings) {
         portfolioData.settings = DEFAULT_PORTFOLIO_DATA.settings;
       }
+      savePortfolioData();
     } catch (e) {
       portfolioData = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
+      portfolioData.reviews = [];
+      savePortfolioData();
     }
   } else {
     portfolioData = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
+    portfolioData.reviews = [];
     savePortfolioData();
   }
 }
@@ -241,6 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function initDashboard() {
     setupSidebarTabs();
     renderOverviewKPIs();
+    renderTodoWorksManager();
+    setupTodoWorksEvents();
     renderInquiries();
     renderStatsEditor();
     renderReviewsManager();
@@ -290,8 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Real-time Reviews from Cloud Firestore
     window.SunnyFirebase.subscribeReviews(function (cloudReviews) {
-      if (Array.isArray(cloudReviews) && cloudReviews.length > 0) {
-        portfolioData.reviews = cloudReviews;
+      if (Array.isArray(cloudReviews)) {
+        portfolioData.reviews = cloudReviews.filter(r => !['rev_1', 'rev_2', 'rev_3', 'rev_4'].includes(r.id));
         savePortfolioData();
         renderReviewsManager();
         renderOverviewKPIs();
@@ -315,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let target = tabId;
     if (target === 'reviews') target = 'tabReviews';
     if (target === 'inquiries') target = 'tabInquiries';
+    if (target === 'todo' || target === 'todoWorks' || target === 'works') target = 'tabTodoWorks';
     if (target === 'stats') target = 'tabStats';
     if (target === 'controls') target = 'tabControls';
     if (target === 'overview') target = 'tabOverview';
@@ -359,6 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const kpiSatisfaction = document.getElementById('kpiSatisfaction');
     const kpiInquiries = document.getElementById('kpiInquiries');
     const kpiReviews = document.getElementById('kpiReviews');
+    const kpiTodo = document.getElementById('kpiTodoWorks');
+    const kpiTodoVal = document.getElementById('kpiTodoValue');
 
     const totalWorks = (parseInt(portfolioData.stats.editorWorks) || 0) + (parseInt(portfolioData.stats.filmmakerWorks) || 0);
     if (kpiWorks) kpiWorks.textContent = `${totalWorks}+`;
@@ -367,18 +317,412 @@ document.addEventListener('DOMContentLoaded', () => {
     const newInquiriesCount = (portfolioData.inquiries || []).filter(i => i.status === 'new').length;
     if (kpiInquiries) kpiInquiries.textContent = (portfolioData.inquiries || []).length;
     
-    // Update badge in sidebar and navbar
-    const badge = document.getElementById('sidebarInquiryBadge');
-    if (badge) {
-      badge.textContent = `${newInquiriesCount} New`;
-      badge.style.display = newInquiriesCount > 0 ? 'inline-block' : 'none';
+    // Update inquiries badge in sidebar
+    const inqBadge = document.getElementById('sidebarInquiryBadge');
+    if (inqBadge) {
+      inqBadge.textContent = `${newInquiriesCount} New`;
+      inqBadge.style.display = newInquiriesCount > 0 ? 'inline-block' : 'none';
     }
 
     if (kpiReviews) kpiReviews.textContent = (portfolioData.reviews || []).length;
 
-    // Recent inquiries preview table
+    // Update To-Do KPIs
+    const todoList = portfolioData.todoWorks || [];
+    const pendingWorks = todoList.filter(w => w.status !== 'completed');
+    if (kpiTodo) kpiTodo.textContent = pendingWorks.length;
+    if (kpiTodoVal) {
+      kpiTodoVal.textContent = `${pendingWorks.length} active deliverable${pendingWorks.length === 1 ? '' : 's'}`;
+    }
+
+    const todoBadge = document.getElementById('sidebarTodoBadge');
+    if (todoBadge) {
+      todoBadge.textContent = `${pendingWorks.length}`;
+      todoBadge.style.display = pendingWorks.length > 0 ? 'inline-block' : 'none';
+    }
+
+    // Recent overview widgets
+    renderOverviewTodos();
     renderRecentInquiriesOverview();
   }
+
+  // ==========================================
+  // TO-DO WORKS MANAGER (ADMIN PANEL ONLY)
+  // ==========================================
+  function renderOverviewTodos() {
+    const container = document.getElementById('overviewTodoList');
+    if (!container) return;
+    const allWorks = portfolioData.todoWorks || [];
+    const activeWorks = allWorks.filter(w => w.status !== 'completed');
+
+    if (activeWorks.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state" style="padding: 1.5rem 1rem;">
+          <i data-lucide="check-circle" style="color:var(--green); width:32px; height:32px; margin-bottom:0.5rem;"></i>
+          <p style="color:var(--text-secondary); font-size:0.9rem;">No active to-do works. All deliverables are up to date!</p>
+          <button class="btn-ghost" onclick="window.openTodoModal()" style="margin-top:0.75rem; font-size:0.82rem; padding:0.4rem 0.85rem;">
+            <i data-lucide="plus"></i> Add New Work
+          </button>
+        </div>
+      `;
+      if (window.lucide) window.lucide.createIcons();
+      return;
+    }
+
+    const previewItems = activeWorks.slice(0, 4);
+    container.innerHTML = previewItems.map(work => {
+      const isProgress = work.status === 'in_progress';
+      const statusLabel = isProgress ? 'In Progress' : 'Pending';
+      const statusBadgeClass = isProgress ? 'in_progress' : 'pending';
+
+      return `
+        <div class="overview-todo-item">
+          <div style="min-width:0; flex:1;">
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+              <span class="todo-badge ${statusBadgeClass}">${statusLabel}</span>
+              <strong style="color:#fff; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(work.name)}</strong>
+            </div>
+            <div style="font-size:0.8rem; color:var(--text-secondary); line-height:1.4;">${escapeHtml(work.desc).slice(0, 80)}${work.desc.length > 80 ? '...' : ''}</div>
+          </div>
+          <div style="text-align:right; flex-shrink:0;">
+            <div class="todo-amount-badge" style="font-size:0.8rem; padding:0.25rem 0.5rem;">${escapeHtml(work.amount)}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;">
+              <i data-lucide="clock" style="width:11px; height:11px; vertical-align:middle;"></i> ${escapeHtml(work.time)}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function renderTodoWorksManager() {
+    const listContainer = document.getElementById('todoWorksList');
+    if (!listContainer) return;
+
+    const works = portfolioData.todoWorks || [];
+
+    // Calculate Summary Stats
+    const totalCount = works.length;
+    const pendingCount = works.filter(w => w.status === 'pending').length;
+    const progressCount = works.filter(w => w.status === 'in_progress').length;
+    const completedCount = works.filter(w => w.status === 'completed').length;
+
+    // Sum amount if numbers or extract numeric digits
+    let totalNumericAmount = 0;
+    works.forEach(w => {
+      if (w.amount) {
+        const cleaned = w.amount.replace(/[^0-9.]/g, '');
+        const val = parseFloat(cleaned);
+        if (!isNaN(val)) totalNumericAmount += val;
+      }
+    });
+
+    const statTotal = document.getElementById('todoStatTotal');
+    const statPending = document.getElementById('todoStatPending');
+    const statProgress = document.getElementById('todoStatProgress');
+    const statCompleted = document.getElementById('todoStatCompleted');
+    const statAmount = document.getElementById('todoStatAmount');
+
+    if (statTotal) statTotal.textContent = totalCount;
+    if (statPending) statPending.textContent = pendingCount;
+    if (statProgress) statProgress.textContent = progressCount;
+    if (statCompleted) statCompleted.textContent = completedCount;
+    if (statAmount) {
+      statAmount.textContent = totalNumericAmount > 0 
+        ? `₹${totalNumericAmount.toLocaleString()}` 
+        : (works.length > 0 ? works[0].amount : '₹0');
+    }
+
+    // Filter items
+    let filteredWorks = works;
+    if (currentTodoFilter === 'pending') {
+      filteredWorks = works.filter(w => w.status === 'pending');
+    } else if (currentTodoFilter === 'in_progress') {
+      filteredWorks = works.filter(w => w.status === 'in_progress');
+    } else if (currentTodoFilter === 'completed') {
+      filteredWorks = works.filter(w => w.status === 'completed');
+    }
+
+    if (filteredWorks.length === 0) {
+      listContainer.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1; padding: 3rem 1.5rem;">
+          <i data-lucide="check-square" style="width:40px; height:40px; color:var(--cyan); margin-bottom:0.75rem;"></i>
+          <h4>No To-Do Works Found</h4>
+          <p style="color:var(--text-secondary); max-width:400px; margin:0 auto 1.25rem;">
+            ${currentTodoFilter === 'all' 
+              ? 'You have not added any project works yet. Click below to add your first client deliverable with name, description, amount, and deadline.' 
+              : 'No works matching the "' + currentTodoFilter.replace('_', ' ') + '" status filter.'}
+          </p>
+          <button class="btn-primary" onclick="window.openTodoModal()" style="max-width:200px; margin:0 auto;">
+            <i data-lucide="plus-circle"></i>
+            <span>Add To-Do Work</span>
+          </button>
+        </div>
+      `;
+      if (window.lucide) window.lucide.createIcons();
+      return;
+    }
+
+    listContainer.innerHTML = filteredWorks.map(work => {
+      let statusBadgeHtml = '';
+      if (work.status === 'completed') {
+        statusBadgeHtml = `<span class="todo-badge completed"><i data-lucide="check-circle-2"></i> Completed</span>`;
+      } else if (work.status === 'in_progress') {
+        statusBadgeHtml = `<span class="todo-badge in_progress"><i data-lucide="play-circle"></i> In Progress</span>`;
+      } else {
+        statusBadgeHtml = `<span class="todo-badge pending"><i data-lucide="clock"></i> Pending</span>`;
+      }
+
+      // Next status toggle label
+      let nextStatus = 'in_progress';
+      let nextStatusLabel = 'Start Work';
+      let nextStatusIcon = 'play';
+      if (work.status === 'pending') {
+        nextStatus = 'in_progress';
+        nextStatusLabel = 'In Progress';
+        nextStatusIcon = 'play-circle';
+      } else if (work.status === 'in_progress') {
+        nextStatus = 'completed';
+        nextStatusLabel = 'Mark Done';
+        nextStatusIcon = 'check';
+      } else {
+        nextStatus = 'pending';
+        nextStatusLabel = 'Reopen';
+        nextStatusIcon = 'rotate-ccw';
+      }
+
+      return `
+        <div class="todo-work-card status-${work.status || 'pending'}" data-id="${work.id}">
+          <div>
+            <div class="todo-card-top">
+              ${statusBadgeHtml}
+              <div style="font-size:0.75rem; color:var(--text-muted);">
+                ${work.createdAt || 'Active'}
+              </div>
+            </div>
+
+            <h3 class="todo-card-title">${escapeHtml(work.name)}</h3>
+            <p class="todo-card-desc">${escapeHtml(work.desc)}</p>
+
+            <div class="todo-meta-strip">
+              <span class="todo-amount-badge" title="Project Amount">
+                <i data-lucide="badge-dollar-sign"></i>
+                <span>${escapeHtml(work.amount)}</span>
+              </span>
+              <span class="todo-time-badge" title="Estimated Time / Deadline">
+                <i data-lucide="clock"></i>
+                <span>${escapeHtml(work.time)}</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="todo-card-actions">
+            <button type="button" class="btn-todo-status" onclick="window.cycleTodoStatus('${work.id}', '${nextStatus}')" title="Change work status">
+              <i data-lucide="${nextStatusIcon}"></i>
+              <span>${nextStatusLabel}</span>
+            </button>
+
+            <div class="todo-actions-right">
+              <button type="button" class="btn-action edit" onclick="window.editTodoWork('${work.id}')" title="Edit this work">
+                <i data-lucide="edit-2"></i> Edit
+              </button>
+              <button type="button" class="btn-action delete" onclick="window.deleteTodoWork('${work.id}')" title="Delete work">
+                <i data-lucide="trash-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function setupTodoWorksEvents() {
+    // Open Add Modal Button
+    const btnAdd = document.getElementById('btnOpenAddTodoWork');
+    if (btnAdd) {
+      btnAdd.addEventListener('click', () => {
+        window.openTodoModal();
+      });
+    }
+
+    // Close Modal Button
+    const btnClose = document.getElementById('btnCloseTodoModal');
+    if (btnClose) {
+      btnClose.addEventListener('click', () => {
+        closeTodoModal();
+      });
+    }
+
+    // Modal background click
+    const modal = document.getElementById('todoWorkModal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeTodoModal();
+      });
+    }
+
+    // Form Submit
+    const form = document.getElementById('todoWorkForm');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveTodoWork();
+      });
+    }
+
+    // Filter Pills
+    const filterPills = document.querySelectorAll('#todoFilters .filter-pill');
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        currentTodoFilter = pill.dataset.filter || 'all';
+        renderTodoWorksManager();
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  window.openTodoModal = function(workId = null) {
+    const modal = document.getElementById('todoWorkModal');
+    const heading = document.getElementById('todoModalHeading');
+    const inputId = document.getElementById('todoWorkId');
+    const inputName = document.getElementById('todoWorkName');
+    const inputDesc = document.getElementById('todoWorkDesc');
+    const inputAmount = document.getElementById('todoWorkAmount');
+    const inputTime = document.getElementById('todoWorkTime');
+    const selectStatus = document.getElementById('todoWorkStatus');
+
+    if (!modal) return;
+
+    if (workId) {
+      const work = (portfolioData.todoWorks || []).find(w => w.id === workId);
+      if (work) {
+        if (heading) heading.textContent = 'Edit To-Do Work';
+        if (inputId) inputId.value = work.id;
+        if (inputName) inputName.value = work.name || '';
+        if (inputDesc) inputDesc.value = work.desc || '';
+        if (inputAmount) inputAmount.value = work.amount || '';
+        if (inputTime) inputTime.value = work.time || '';
+        if (selectStatus) selectStatus.value = work.status || 'pending';
+      }
+    } else {
+      if (heading) heading.textContent = 'Add New To-Do Work';
+      if (inputId) inputId.value = '';
+      if (inputName) inputName.value = '';
+      if (inputDesc) inputDesc.value = '';
+      if (inputAmount) inputAmount.value = '';
+      if (inputTime) inputTime.value = '';
+      if (selectStatus) selectStatus.value = 'pending';
+    }
+
+    modal.classList.add('open');
+    if (window.lucide) window.lucide.createIcons();
+    setTimeout(() => {
+      if (inputName) inputName.focus();
+    }, 100);
+  };
+
+  function closeTodoModal() {
+    const modal = document.getElementById('todoWorkModal');
+    if (modal) modal.classList.remove('open');
+  }
+
+  function saveTodoWork() {
+    const inputId = document.getElementById('todoWorkId');
+    const inputName = document.getElementById('todoWorkName');
+    const inputDesc = document.getElementById('todoWorkDesc');
+    const inputAmount = document.getElementById('todoWorkAmount');
+    const inputTime = document.getElementById('todoWorkTime');
+    const selectStatus = document.getElementById('todoWorkStatus');
+
+    const name = inputName ? inputName.value.trim() : '';
+    const desc = inputDesc ? inputDesc.value.trim() : '';
+    const amount = inputAmount ? inputAmount.value.trim() : '';
+    const time = inputTime ? inputTime.value.trim() : '';
+    const status = selectStatus ? selectStatus.value : 'pending';
+    const id = inputId && inputId.value ? inputId.value : ('work_' + Date.now());
+
+    if (!name || !desc || !amount || !time) {
+      alert('Please fill out all fields (Work Name, Description, Amount, and Time).');
+      return;
+    }
+
+    if (!Array.isArray(portfolioData.todoWorks)) {
+      portfolioData.todoWorks = [];
+    }
+
+    const existingIdx = portfolioData.todoWorks.findIndex(w => w.id === id);
+    const nowStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    if (existingIdx >= 0) {
+      portfolioData.todoWorks[existingIdx] = {
+        ...portfolioData.todoWorks[existingIdx],
+        name,
+        desc,
+        amount,
+        time,
+        status,
+        updatedAt: nowStr
+      };
+      showAdminToast(`Work "${name}" updated successfully!`, 'check-circle');
+    } else {
+      portfolioData.todoWorks.unshift({
+        id,
+        name,
+        desc,
+        amount,
+        time,
+        status,
+        createdAt: nowStr
+      });
+      showAdminToast(`New work "${name}" added to To-Do Works!`, 'plus-circle');
+    }
+
+    savePortfolioData();
+    closeTodoModal();
+    renderTodoWorksManager();
+    renderOverviewKPIs();
+  }
+
+  window.editTodoWork = function(id) {
+    window.openTodoModal(id);
+  };
+
+  window.deleteTodoWork = function(id) {
+    const work = (portfolioData.todoWorks || []).find(w => w.id === id);
+    const title = work ? work.name : 'this item';
+    if (confirm(`Are you sure you want to delete "${title}"?`)) {
+      portfolioData.todoWorks = (portfolioData.todoWorks || []).filter(w => w.id !== id);
+      savePortfolioData();
+      renderTodoWorksManager();
+      renderOverviewKPIs();
+      showAdminToast('To-Do Work deleted.', 'trash-2');
+    }
+  };
+
+  window.cycleTodoStatus = function(id, newStatus) {
+    const work = (portfolioData.todoWorks || []).find(w => w.id === id);
+    if (!work) return;
+    work.status = newStatus;
+    savePortfolioData();
+    renderTodoWorksManager();
+    renderOverviewKPIs();
+    const statusText = newStatus === 'completed' ? 'Completed' : (newStatus === 'in_progress' ? 'In Progress' : 'Pending');
+    showAdminToast(`Status changed to "${statusText}"`, 'check');
+  };
 
   function renderRecentInquiriesOverview() {
     const container = document.getElementById('recentInquiriesList');
@@ -467,6 +811,21 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="inquiry-message-box">
             "${inq.message}"
           </div>
+
+          ${(inq.projectLink || inq.attachedFile) ? `
+          <div class="inquiry-attach-row">
+            ${inq.projectLink ? `
+              <a href="${inq.projectLink}" target="_blank" rel="noopener noreferrer" class="inq-attach-chip link">
+                <i data-lucide="link-2"></i>
+                <span>Project Link</span>
+                <i data-lucide="external-link" style="width:11px;height:11px;opacity:0.6;"></i>
+              </a>` : ''}
+            ${inq.attachedFile ? `
+              <span class="inq-attach-chip file">
+                <i data-lucide="file-check"></i>
+                <span>${inq.attachedFile}</span>
+              </span>` : ''}
+          </div>` : ''}
 
           <div class="inquiry-actions">
             ${inq.status === 'new' 
@@ -686,6 +1045,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (p4 && fC) p4.textContent = fC.value || "1,500+";
   }
 
+  // Helper: Render 5-star set with filled & unfilled SVG stars and rating-based color theme for Admin
+  function renderAdminStarsHTML(rating) {
+    const r = Math.min(5, Math.max(1, parseInt(rating, 10) || 5));
+    const starFilled = '<svg class="star-svg filled" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    const starUnfilled = '<svg class="star-svg unfilled" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+      starsHtml += (i <= r) ? starFilled : starUnfilled;
+    }
+    return `
+      <div class="stars-badge rating-${r}" title="${r} out of 5 stars">
+        <span style="display:inline-flex; gap:2px;">${starsHtml}</span>
+        <span>${r}.0</span>
+      </div>
+    `;
+  }
+
   // 4. Client Reviews Manager
   function renderReviewsManager() {
     const list = document.getElementById('reviewsAdminList');
@@ -707,7 +1083,7 @@ document.addEventListener('DOMContentLoaded', () => {
     list.innerHTML = reviews.map(rev => {
       const isFilm = rev.category === 'filmmaker';
       const initials = rev.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
-      const stars = '★'.repeat(rev.rating || 5);
+      const starsBadge = renderAdminStarsHTML(rev.rating || 5);
 
       return `
         <div class="review-admin-card" data-id="${rev.id}">
@@ -717,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <i data-lucide="${isFilm ? 'clapperboard' : 'scissors'}"></i>
                 ${isFilm ? 'Filmmaking Review' : 'Video Editing Review'}
               </span>
-              <div class="stars-row">${stars}</div>
+              ${starsBadge}
             </div>
 
             <p class="review-text-quote">"${rev.text}"</p>

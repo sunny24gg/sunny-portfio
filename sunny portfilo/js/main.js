@@ -142,74 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
       availabilitySub: "Worldwide Remote Video Editing & On-Location Shoot Direction.",
       announcement: ""
     },
-    reviews: [
-      {
-        id: "rev_1",
-        name: "Arjun Mehta",
-        role: "Content Creator & Founder",
-        company: "Pulse Media (1.2M Subs)",
-        category: "editor",
-        rating: 5,
-        text: "Sunny transformed our YouTube retention rates from 38% to over 65%. His pacing, motion tracking, and sound design are second to none in this industry.",
-        date: "2026-09-15"
-      },
-      {
-        id: "rev_2",
-        name: "Sarah Jenkins",
-        role: "Music Video Director & Artist",
-        company: "Elysian Records UK",
-        category: "filmmaker",
-        rating: 5,
-        text: "Working with Sunny on our narrative visual album was breathtaking. His eye for anamorphic lighting, camera movement, and emotional color grades brought tears to our eyes.",
-        date: "2026-08-28"
-      },
-      {
-        id: "rev_3",
-        name: "Vikram Sethi",
-        role: "Creative Director",
-        company: "Apex Brand Studio",
-        category: "editor",
-        rating: 5,
-        text: "Delivered a commercial 30s broadcast spot under a 48-hour deadline without breaking a sweat. The sound design alone elevated the entire production.",
-        date: "2026-10-02"
-      },
-      {
-        id: "rev_4",
-        name: "Elena Rostova",
-        role: "Indie Film Producer",
-        company: "Silverlight Cine",
-        category: "filmmaker",
-        rating: 5,
-        text: "Sunny's directorial vision is mature far beyond his years. Precise scene blocking, incredible work with actors, and a final Kodak 2383 grade that won festival honors.",
-        date: "2026-10-18"
-      }
-    ],
-    inquiries: [
-      {
-        id: "inq_1",
-        name: "Rohan Gupta",
-        email: "rohan.g@techflow.io",
-        service: "video-editing",
-        sourceForm: "Video Editor Form",
-        mode: "editor",
-        timeline: "2 weeks turnaround",
-        message: "Looking for a high-retention video editor for our series of product launch videos and Instagram Reels. We love your style and attention to rhythm!",
-        date: "2026-10-24 14:32",
-        status: "new"
-      },
-      {
-        id: "inq_2",
-        name: "Maya Krishnan",
-        email: "maya@indiefilms.co",
-        service: "filmmaking",
-        sourceForm: "Filmmaking Form",
-        mode: "filmmaker",
-        timeline: "Shoot starts next month",
-        message: "We have a 15-minute narrative drama script ready and want Sunny to direct and oversee the cinematography in Mumbai/Hyderabad.",
-        date: "2026-10-23 09:15",
-        status: "contacted"
-      }
-    ]
+    reviews: [],
+    inquiries: []
   };
 
   let portfolioData = null;
@@ -220,15 +154,42 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         portfolioData = JSON.parse(raw);
         if (!portfolioData.stats) portfolioData.stats = DEFAULT_PORTFOLIO_DATA.stats;
-        if (!Array.isArray(portfolioData.reviews)) portfolioData.reviews = DEFAULT_PORTFOLIO_DATA.reviews;
-        if (!Array.isArray(portfolioData.inquiries)) portfolioData.inquiries = DEFAULT_PORTFOLIO_DATA.inquiries;
+        // Reset reviews data to empty
+        portfolioData.reviews = [];
+        // Ensure inquiries array exists
+        if (!Array.isArray(portfolioData.inquiries)) {
+          portfolioData.inquiries = [];
+        } else {
+          portfolioData.inquiries = portfolioData.inquiries.filter(i => i.id !== 'inq_1' && i.id !== 'inq_2');
+        }
+        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(portfolioData));
       } catch (e) {
         portfolioData = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
+        portfolioData.reviews = [];
+        localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(portfolioData));
       }
     } else {
       portfolioData = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
+      portfolioData.reviews = [];
       localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(portfolioData));
     }
+  }
+
+  // Helper: Render 5-star set with filled & unfilled SVG stars and rating-based color theme
+  function renderStarsHTML(rating) {
+    const r = Math.min(5, Math.max(1, parseInt(rating, 10) || 5));
+    const starFilled = '<svg class="star-svg filled" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    const starUnfilled = '<svg class="star-svg unfilled" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+      starsHtml += (i <= r) ? starFilled : starUnfilled;
+    }
+    return `
+      <div class="review-rating-badge rating-${r}" title="${r} out of 5 stars">
+        <span class="review-rating-stars">${starsHtml}</span>
+        <span>${r}.0</span>
+      </div>
+    `;
   }
 
   function renderPortfolioData(mode) {
@@ -266,37 +227,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Render Client Reviews Grid
     const reviewsGrid = document.getElementById('portfolioReviewsGrid');
     if (reviewsGrid && Array.isArray(portfolioData.reviews)) {
-      reviewsGrid.innerHTML = portfolioData.reviews.map(rev => {
-        const isFilm = rev.category === 'filmmaker';
-        const initials = rev.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
-        const stars = '★'.repeat(rev.rating || 5);
-        const categoryBadgeClass = isFilm ? 'filmmaker' : 'editor';
-        const categoryIcon = isFilm ? 'clapperboard' : 'scissors';
-        const categoryLabel = isFilm ? 'Filmmaking & Direction' : 'Video Editing & VFX';
-
-        return `
-          <div class="review-portfolio-card">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="review-card-category-badge ${categoryBadgeClass}">
-                  <i data-lucide="${categoryIcon}" style="width:12px; height:12px;"></i>
-                  <span>${categoryLabel}</span>
-                </span>
-                <span style="color:#fbbf24; font-size:0.95rem; letter-spacing:0.1em;">${stars}</span>
-              </div>
-              <p class="review-quote-text">${rev.text}</p>
-            </div>
-
-            <div class="review-author-bottom">
-              <div class="review-author-avatar">${initials}</div>
-              <div>
-                <div class="review-author-name">${rev.name}</div>
-                <div class="review-author-role">${[rev.role, rev.company].filter(Boolean).join(' • ') || 'Verified Client'}</div>
-              </div>
-            </div>
+      if (portfolioData.reviews.length === 0) {
+        reviewsGrid.innerHTML = `
+          <div class="reviews-empty-state" style="grid-column:1/-1; text-align:center; padding:3rem 1.5rem; color:var(--text-muted);">
+            <p style="font-size:0.95rem;">No reviews yet. Be the first to leave feedback!</p>
           </div>
         `;
-      }).join('');
+      } else {
+        reviewsGrid.innerHTML = portfolioData.reviews.map(rev => {
+          const isFilm = rev.category === 'filmmaker';
+          const initials = rev.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+          const categoryBadgeClass = isFilm ? 'filmmaker' : 'editor';
+          const categoryIcon = isFilm ? 'clapperboard' : 'scissors';
+          const categoryLabel = isFilm ? 'Filmmaking & Direction' : 'Video Editing & VFX';
+          const ratingBadge = renderStarsHTML(rev.rating || 5);
+
+          return `
+            <div class="review-portfolio-card">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; flex-wrap:wrap; margin-bottom: 0.85rem;">
+                  <span class="review-card-category-badge ${categoryBadgeClass}" style="margin-bottom:0;">
+                    <i data-lucide="${categoryIcon}" style="width:12px; height:12px;"></i>
+                    <span>${categoryLabel}</span>
+                  </span>
+                  ${ratingBadge}
+                </div>
+                <p class="review-quote-text">${rev.text}</p>
+              </div>
+
+              <div class="review-author-bottom">
+                <div class="review-author-avatar">${initials}</div>
+                <div>
+                  <div class="review-author-name">${rev.name}</div>
+                  <div class="review-author-role">${[rev.role, rev.company].filter(Boolean).join(' • ') || 'Verified Client'}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
 
       if (window.lucide) {
         window.lucide.createIcons();
@@ -318,8 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Real-time Reviews from Cloud Firestore
     window.SunnyFirebase.subscribeReviews(function (cloudReviews) {
-      if (Array.isArray(cloudReviews) && cloudReviews.length > 0) {
-        portfolioData.reviews = cloudReviews;
+      if (Array.isArray(cloudReviews)) {
+        portfolioData.reviews = cloudReviews.filter(r => !['rev_1', 'rev_2', 'rev_3', 'rev_4'].includes(r.id));
         localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(portfolioData));
         renderPortfolioData(currentMode);
       }
@@ -554,34 +523,37 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ==========================================================================
      7. CONTACT FORM SUBMISSION (WITH DUAL FORM ORIGIN TRACKING & ADMIN SYNC)
      ========================================================================== */
+
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       playClickSound();
 
-      const name = document.getElementById('senderName').value;
-      const email = document.getElementById('senderEmail').value;
-      const service = document.getElementById('projectType').value;
-      const timeline = document.getElementById('projectBudget').value;
-      const message = document.getElementById('senderMessage').value;
+      const name     = document.getElementById('senderName').value.trim();
+      const email    = document.getElementById('senderEmail').value.trim();
+      const service  = document.getElementById('projectType').value;
+      const timeline = document.getElementById('projectBudget').value.trim();
+      const message  = document.getElementById('senderMessage').value.trim();
+      const projectLink = (document.getElementById('projectLink') || {}).value || '';
 
       // Determine form origin based on active mode
       const isFilmMode = currentMode === 'filmmaker';
       const formOriginLabel = isFilmMode ? 'Filmmaking Form' : 'Video Editor Form';
 
-      // Save inquiry to portfolioData in localStorage for the Admin Dashboard
+      // Save inquiry to portfolioData in localStorage
       if (!portfolioData) loadPortfolioData();
       if (!Array.isArray(portfolioData.inquiries)) portfolioData.inquiries = [];
 
       const newInquiry = {
         id: 'inq_' + Date.now(),
-        name: name,
-        email: email,
-        service: service,
+        name,
+        email,
+        service,
         sourceForm: formOriginLabel,
         mode: currentMode,
         timeline: timeline || 'Standard Turnaround',
-        message: message,
+        message,
+        projectLink: projectLink ? projectLink.trim() : '',
         date: new Date().toISOString().slice(0, 16).replace('T', ' '),
         status: 'new'
       };
@@ -598,22 +570,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Construct direct mailto fallback link with prefilled details
+      // Build extra details for mailto body
+      const extraSection = projectLink ? `\n\nProject Link:\n${projectLink.trim()}` : '';
+
+      // Construct mailto link
       const subject = encodeURIComponent(`[${formOriginLabel}] Project Inquiry: ${service} by ${name}`);
-      const body = encodeURIComponent(
-        `Hi Sunny,\n\nOrigin: ${formOriginLabel}\nName: ${name}\nEmail: ${email}\nService: ${service}\nTimeline: ${timeline}\n\nProject Details:\n${message}\n\nLooking forward to hearing from you!`
+      const body    = encodeURIComponent(
+        `Hi Sunny,\n\nOrigin: ${formOriginLabel}\nName: ${name}\nEmail: ${email}\nService: ${service}\nTimeline: ${timeline}\n\nProject Details:\n${message}${extraSection}\n\nLooking forward to hearing from you!`
       );
       const mailtoUrl = `mailto:srujanjai2243@gmail.com?subject=${subject}&body=${body}`;
-
-      // Open email client
       window.location.href = mailtoUrl;
 
-      // Show in-UI success state
+      // Show success state
       if (formFeedback) {
         formFeedback.className = 'form-feedback success';
+        const attachNote = projectLink ? ' Your project link has been noted.' : '';
         formFeedback.innerHTML = `
           <strong>Thank you, ${name}!</strong><br>
-          Your inquiry from the <strong>${formOriginLabel}</strong> has been received and saved directly to Sunny's dashboard. Your mail client has also opened. You can also chat directly on WhatsApp at <strong>+91 8106904433</strong>.
+          Your inquiry from the <strong>${formOriginLabel}</strong> has been received.${attachNote}
+          Your mail client has also opened. You can also chat on WhatsApp at <strong>+91 8106904433</strong>.
         `;
         formFeedback.classList.remove('hidden');
       }
@@ -766,12 +741,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function updateStarsDisplay(ratingVal) {
+      const r = Math.min(5, Math.max(1, parseInt(ratingVal, 10) || 5));
+      liveStarPicker.setAttribute('data-active-rating', r);
+      liveStarPicker.removeAttribute('data-hover-rating');
       starBtns.forEach(btn => {
         const btnVal = parseInt(btn.dataset.rating, 10);
-        btn.classList.toggle('active', btnVal <= ratingVal);
+        btn.classList.toggle('active', btnVal <= r);
+        btn.classList.remove('hovered');
       });
-      if (liveRevRatingInput) liveRevRatingInput.value = ratingVal;
-      if (starRatingCaption) starRatingCaption.textContent = captions[ratingVal] || `${ratingVal}.0 Star Rating`;
+      if (liveRevRatingInput) liveRevRatingInput.value = r;
+      if (starRatingCaption) {
+        starRatingCaption.textContent = captions[r] || `${r}.0 Star Rating`;
+        starRatingCaption.className = `star-rating-caption rating-val-${r}`;
+      }
     }
 
     starBtns.forEach(btn => {
@@ -783,14 +765,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
       btn.addEventListener('mouseenter', () => {
         const rating = parseInt(btn.dataset.rating, 10);
+        liveStarPicker.setAttribute('data-hover-rating', rating);
         starBtns.forEach(b => {
           const val = parseInt(b.dataset.rating, 10);
           b.classList.toggle('hovered', val <= rating);
         });
+        if (starRatingCaption) {
+          starRatingCaption.textContent = captions[rating] || `${rating}.0 Star Rating`;
+          starRatingCaption.className = `star-rating-caption rating-val-${rating}`;
+        }
       });
 
       btn.addEventListener('mouseleave', () => {
+        liveStarPicker.removeAttribute('data-hover-rating');
+        const activeRating = parseInt(liveRevRatingInput ? liveRevRatingInput.value : 5, 10);
         starBtns.forEach(b => b.classList.remove('hovered'));
+        if (starRatingCaption) {
+          starRatingCaption.textContent = captions[activeRating] || `${activeRating}.0 Star Rating`;
+          starRatingCaption.className = `star-rating-caption rating-val-${activeRating}`;
+        }
       });
     });
   }
@@ -838,11 +831,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 4. Reset & close modal
       liveReviewForm.reset();
-      const defaultRating = 5;
-      if (liveRevRatingInput) liveRevRatingInput.value = defaultRating;
       if (liveStarPicker) {
-        liveStarPicker.querySelectorAll('.star-btn').forEach(b => b.classList.add('active'));
-        if (starRatingCaption) starRatingCaption.textContent = "5.0 Star Rating";
+        updateStarsDisplay(5);
       }
       closeLiveReviewModal();
 

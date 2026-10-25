@@ -211,6 +211,21 @@
       }
     },
 
+    clearAllReviews: async function () {
+      if (!this.isReady()) return;
+      try {
+        const snapshot = await db.collection('reviews').get();
+        const batch = db.batch();
+        snapshot.forEach(function (doc) {
+          batch.delete(doc.ref);
+        });
+        await batch.commit();
+        console.log('✅ Cleared all reviews in Firestore');
+      } catch (e) {
+        console.error('Error clearing reviews in Firebase:', e);
+      }
+    },
+
     /* ==========================================================================
        3. PORTFOLIO STATS, SETTINGS & EVERY INFO
        ========================================================================== */
@@ -263,29 +278,9 @@
           console.log('🌱 Seeded initial portfolio info into Firebase');
         }
 
-        // 2. Seed default reviews if reviews collection is empty
-        const revSnapshot = await db.collection('reviews').limit(1).get();
-        if (revSnapshot.empty && Array.isArray(defaultData.reviews)) {
-          const batch = db.batch();
-          defaultData.reviews.forEach(function (rev) {
-            const ref = db.collection('reviews').doc(rev.id);
-            batch.set(ref, rev);
-          });
-          await batch.commit();
-          console.log('🌱 Seeded initial client reviews into Firebase');
-        }
-
-        // 3. Seed demo inquiries if inquiries collection is empty
-        const inqSnapshot = await db.collection('inquiries').limit(1).get();
-        if (inqSnapshot.empty && Array.isArray(defaultData.inquiries)) {
-          const batch = db.batch();
-          defaultData.inquiries.forEach(function (inq) {
-            const ref = db.collection('inquiries').doc(inq.id);
-            batch.set(ref, inq);
-          });
-          await batch.commit();
-          console.log('🌱 Seeded initial demo inquiries into Firebase');
-        }
+        // NOTE: Reviews and Inquiries now start empty — no dummy data seeded.
+        // Real reviews are added via the portfolio "Write a Review" form.
+        // Real inquiries come in from the portfolio contact form.
       } catch (e) {
         console.warn('Firebase seeding notice (safe to ignore if rules block initial batch):', e.message);
       }
