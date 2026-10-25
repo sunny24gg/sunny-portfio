@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="editor">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunny | Master Video Editor & Cinematic Filmmaker</title>
+  <meta name="description" content="Official portfolio of Sunny — Professional Video Editor and Cinematic Filmmaker. Transforming vision into captivating visual art through high-end editing, direction, and color grading.">
+  <meta name="keywords" content="Sunny, Video Editor, Filmmaker, Cinematographer, Premiere Pro, After Effects, DaVinci Resolve, Film Direction, Video Editing Portfolio">
+  <meta name="author" content="Sunny">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Sunny | Master Video Editor & Cinematic Filmmaker">
+  <meta property="og:description" content="Explore premier video editing & cinematic filmmaking portfolios by Sunny.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons (CDN) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Ambient Audio & Sound Effects Switcher (Optional Mute) -->
+  <div id="soundToggle" class="sound-toggle" title="Sound Effects Active">
+    <i data-lucide="volume-2" class="icon-sound-on"></i>
+    <i data-lucide="volume-x" class="icon-sound-off"></i>
+  </div>
+
+  <!-- Custom Ambient Film Glow Background -->
+  <canvas id="ambientCanvas" class="ambient-canvas"></canvas>
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+
+      <!-- Brand Logo -->
+      <a href="#home" class="brand-logo" id="brandLogo">
+        <span class="brand-name">SUNNY</span>
+        <span class="brand-dot"></span>
+      </a>
+
+      <!-- Nav Links -->
+      <nav class="nav-menu" id="navMenu">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#software" class="nav-link">
+          <span class="mode-text-editor">Software</span>
+          <span class="mode-text-filmmaker">Gear</span>
+        </a>
+        <a href="#past-work" class="nav-link">Work</a>
+        <a href="#learning" class="nav-link">Learning</a>
+        <a href="#grading-lab" class="nav-link">Lab</a>
+      </nav>
+
+      <!-- Right: Mode Toggle + CTA + Hamburger -->
+      <div class="nav-right">
+        <div class="mode-toggle-container" id="modeToggle">
+          <div class="mode-slider" id="modeSlider"></div>
+          <button class="mode-btn active" id="btnModeEditor" data-target="editor" aria-label="Video Editor mode">
+            <i data-lucide="scissors" class="mode-icon"></i>
+            <span>Editor</span>
+          </button>
+          <button class="mode-btn" id="btnModeFilmmaker" data-target="filmmaker" aria-label="Filmmaker mode">
+            <i data-lucide="clapperboard" class="mode-icon"></i>
+            <span>Filmmaker</span>
+          </button>
+        </div>
+        <a href="#contact" class="btn-nav-cta">Let's Create</a>
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-content">
+      <!-- Mobile Mode Switcher -->
+      <div class="mobile-mode-switch">
+        <div class="mode-toggle-container" id="modeToggleMobile">
+          <div class="mode-slider" id="modeSliderMobile"></div>
+          <button class="mode-btn active" data-target="editor">
+            <i data-lucide="scissors"></i>
+            <span>Editor</span>
+          </button>
+          <button class="mode-btn" data-target="filmmaker">
+            <i data-lucide="clapperboard"></i>
+            <span>Filmmaker</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="mobile-nav-links">
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#about" class="mobile-link">About Me</a>
+        <a href="#software" class="mobile-link">
+          <span class="mode-text-editor">Software & Tools</span>
+          <span class="mode-text-filmmaker">Gear & Directing Stack</span>
+        </a>
+        <a href="#past-work" class="mobile-link">Past Work Showcases</a>
+        <a href="#learning" class="mobile-link">Learning Resources</a>
+        <a href="#grading-lab" class="mobile-link">Color Grading Lab</a>
+        <a href="#contact" class="mobile-link mobile-contact-btn">Get In Touch</a>
+      </nav>
+      <div class="mobile-contact-info">
+        <p><i data-lucide="mail"></i> srujanjai2243@gmail.com</p>
+        <p><i data-lucide="phone"></i> +91 8106904433</p>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section" id="home">
+      <!-- Mode Ambient Glow Highlights -->
+      <div class="hero-glow hero-glow-primary"></div>
+      <div class="hero-glow hero-glow-secondary"></div>
+
+      <div class="container hero-container">
+        <!-- Hero Content Text -->
+        <div class="hero-text-col">
+          <div class="hero-badge">
+            <span class="pulse-indicator"></span>
+            <span class="mode-text-editor">PRO VIDEO EDITOR & MOTION ALCHEMIST</span>
+            <span class="mode-text-filmmaker">CINEMATIC DIRECTOR & VISUAL STORYTELLER</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="hero-hello">HI, I'M</span>
+            <span class="hero-name-gradient">SUNNY</span>
+            <span class="hero-role-break">
+              <span class="role-highlight mode-text-editor">Crafting High-Retention Visual Rhythms</span>
+              <span class="role-highlight mode-text-filmmaker">Directing Evocative Cinematic Narratives</span>
+            </span>
+          </h1>
+
+          <p class="hero-description mode-text-editor">
+            Turning raw footage into adrenaline-charged visual masterpieces. Specializing in high-impact commercial edits, viral pacing, seamless transitions, and surgical sound design that keeps audiences glued to the screen.
+          </p>
+          <p class="hero-description mode-text-filmmaker">
+            Bringing scripts to life through atmospheric lighting, intentional camera motion, and deep emotional resonance. Transforming stories into unforgettable cinematic spectacles from storyboard to final grade.
+          </p>
+
+          <!-- Interactive Persona Switcher Banner inside Hero -->
+          <div class="hero-persona-card">
+            <div class="persona-icon-box">
+              <img src="assests/ChatGPT Image Oct 6, 2026, 07_31_33 PM.png" alt="Video Editing Reel" class="persona-icon mode-img-editor">
+              <img src="assests/ChatGPT Image Oct 6, 2026, 07_35_14 PM.png" alt="Filmmaking Script" class="persona-icon mode-img-filmmaker">
+            </div>
+            <div class="persona-details">
+              <span class="persona-sub">CURRENT PERSPECTIVE</span>
+              <h4 class="persona-title mode-text-editor">Precision Video Editing Mode</h4>
+              <h4 class="persona-title mode-text-filmmaker">Cinematic Directing Mode</h4>
+              <p class="persona-hint">Click the toggle above or switch anytime to experience different creative dimensions.</p>
+            </div>
+            <button class="btn-quick-switch" id="btnQuickSwitch" title="Switch Persona Mode">
+              <i data-lucide="refresh-cw"></i>
+              <span>Toggle Persona</span>
+            </button>
+          </div>
+
+          <!-- Hero Action Buttons -->
+          <div class="hero-actions">
+            <a href="#past-work" class="btn btn-primary">
+              <i data-lucide="play" class="fill-current"></i>
+              <span>Watch Showreel</span>
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <i data-lucide="send"></i>
+              <span>Hire For Project</span>
+            </a>
+            <a href="https://wa.me/918106904433" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" title="Direct WhatsApp Chat">
+              <i data-lucide="message-circle"></i>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+
+          <!-- Dynamic Impact & Work Stats Counter Bar -->
+          <div class="hero-stats-bar" id="heroStatsBar">
+            <div class="stat-box">
+              <span class="stat-number" id="statDisplayWorks">150+</span>
+              <span class="stat-label mode-text-editor" id="statLabelEditor">Commercial Edits</span>
+              <span class="stat-label mode-text-filmmaker" id="statLabelFilmmaker">Films Directed</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+              <span class="stat-number" id="statDisplaySatisfaction">99%</span>
+              <span class="stat-label">Client Satisfaction</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+              <span class="stat-number" id="statDisplayFootage">1,500+</span>
+              <span class="stat-label">Hours Rendered</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-box">
+              <span class="stat-number" id="statDisplayExp">3+</span>
+              <span class="stat-label">Years Experience</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual Showcase Column -->
+        <div class="hero-visual-col">
+          <div class="portrait-stage">
+            <!-- Decorative Luxury Framing & Rings -->
+            <div class="stage-ring ring-outer"></div>
+            <div class="stage-ring ring-middle"></div>
+            <div class="stage-ring ring-inner"></div>
+
+            <!-- Editor Portrait Artwork -->
+            <div class="portrait-wrapper mode-view-editor">
+              <div class="portrait-glow"></div>
+              <img src="assests/SUNNY.png" alt="Sunny - Pro Video Editor" class="portrait-img editor-hero-img">
+              <div class="floating-badge badge-top-right">
+                <i data-lucide="sliders"></i>
+                <span>Timeline Master</span>
+              </div>
+              <div class="floating-badge badge-bottom-left">
+                <i data-lucide="film"></i>
+                <span>Cut • Grade • VFX</span>
+              </div>
+            </div>
+
+            <!-- Filmmaker Portrait Artwork -->
+            <div class="portrait-wrapper mode-view-filmmaker">
+              <div class="portrait-glow"></div>
+              <img src="assests/ChatGPT Image Oct 6, 2026, 10_00_56 PM.png" alt="Sunny - Filmmaker & Director" class="portrait-img filmmaker-hero-img">
+              <div class="floating-badge badge-top-right">
+                <i data-lucide="camera"></i>
+                <span>Director of Photography</span>
+              </div>
+              <div class="floating-badge badge-bottom-left">
+                <i data-lucide="video"></i>
+                <span>Anamorphic Vision</span>
+              </div>
+            </div>
+
+            <!-- Cinematic Film Strip Marker Bottom Bar -->
+            <div class="timeline-ticker">
+              <div class="timecode"><span class="rec-dot"></span> REC 00:24:19:08</div>
+              <div class="fps-badge">24 FPS • 4K PRORES RAW</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ABOUT ME SECTION ==================== -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag mode-text-editor">THE CREATIVE MIND BEHIND THE TIMELINE</span>
+          <span class="section-tag mode-text-filmmaker">BEHIND THE DIRECTOR'S LENS</span>
+          <h2 class="section-title">
+            Passionate About Every <span class="text-accent">Single Frame</span>
+          </h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="about-grid">
+          <!-- Left Column: Dynamic Photo & Gallery -->
+          <div class="about-media-col">
+            <div class="about-image-card">
+              <img src="assests/sunny[au].jpeg" alt="Sunny Behind Camera" class="about-main-img">
+              <div class="about-image-overlay">
+                <div class="experience-badge">
+                  <span class="exp-years">3+</span>
+                  <span class="exp-text">Years of Relentless Craftsmanship</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-mini-cards">
+              <div class="mini-card">
+                <div class="mini-icon"><i data-lucide="sparkles"></i></div>
+                <div>
+                  <h5>Obsessive Precision</h5>
+                  <p>Pixel-perfect cuts, keyframe control & pacing.</p>
+                </div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-icon"><i data-lucide="zap"></i></div>
+                <div>
+                  <h5>Fast Turnaround</h5>
+                  <p>High-speed delivery without compromising elegance.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Narrative Tailored to Persona -->
+          <div class="about-text-col">
+            <h3 class="about-headline mode-text-editor">
+              "Editing isn't just cutting footage — it's sculpting human emotion."
+            </h3>
+            <h3 class="about-headline mode-text-filmmaker">
+              "Filmmaking is the art of turning silent thoughts into visual symphonies."
+            </h3>
+
+            <div class="about-body mode-text-editor">
+              <p>
+                My name is <strong>Sunny</strong>, and I see the world through rhythm, sound beats, and emotional timing. As a dedicated <strong>Video Editor</strong>, I specialize in transforming raw, scattered recordings into compelling, polished stories that command attention.
+              </p>
+              <p>
+                Whether it's fast-paced YouTube & Instagram commercial reels, narrative brand documentaries, music video syncs, or high-concept trailers, I architect every millisecond with intention. Through surgical audio design, dynamic speed ramping, and seamless color grading, my goal is always maximum retention and emotional impact.
+              </p>
+            </div>
+
+            <div class="about-body mode-text-filmmaker">
+              <p>
+                My name is <strong>Sunny</strong>. To me, <strong>Filmmaking</strong> is more than capturing pictures; it is capturing the soul of a moment. From writing story treatments and conceptualizing shot lists to directing actors and dialing in cinema lighting, I oversee every step with pure passion.
+              </p>
+              <p>
+                My directorial style blends evocative anamorphic framing, cinematic color contrast, and organic camera movement. Whether executing indie short films, atmospheric music visuals, or stylized narrative commercials, I strive to evoke wonder and leave a lasting impression.
+              </p>
+            </div>
+
+            <!-- Signature Pillars -->
+            <div class="about-pillars">
+              <div class="pillar-item">
+                <div class="pillar-bullet">01</div>
+                <div>
+                  <h4 class="mode-text-editor">Rhythm & Pace</h4>
+                  <h4 class="mode-text-filmmaker">Vision & Story</h4>
+                  <p class="mode-text-editor">Harmonizing audio transients with visual cuts for irresistible flow.</p>
+                  <p class="mode-text-filmmaker">Deep character motivations, visual subtext, and thematic depth.</p>
+                </div>
+              </div>
+
+              <div class="pillar-item">
+                <div class="pillar-bullet">02</div>
+                <div>
+                  <h4 class="mode-text-editor">VFX & Sound Design</h4>
+                  <h4 class="mode-text-filmmaker">Cinematography & Light</h4>
+                  <p class="mode-text-editor">Rich layered soundscapes, whooshes, risers, and subtle visual enhancements.</p>
+                  <p class="mode-text-filmmaker">Atmospheric lighting, deliberate lens choices, and composition geometry.</p>
+                </div>
+              </div>
+
+              <div class="pillar-item">
+                <div class="pillar-bullet">03</div>
+                <div>
+                  <h4>Color Grading Mastery</h4>
+                  <p class="mode-text-editor">Transforming flat Log profiles into lush, contrast-rich cinematic palettes.</p>
+                  <p class="mode-text-filmmaker">Creating signature film looks inspired by classic 35mm celluloid.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact quick links inside About -->
+            <div class="about-contact-bar">
+              <div class="contact-pill">
+                <i data-lucide="mail"></i>
+                <a href="mailto:srujanjai2243@gmail.com">srujanjai2243@gmail.com</a>
+              </div>
+              <div class="contact-pill">
+                <i data-lucide="phone"></i>
+                <a href="tel:+918106904433">+91 8106904433</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SOFTWARE & GEAR SECTION ==================== -->
+    <section class="section software-section" id="software">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag mode-text-editor">DIGITAL SUITE & WORKFLOW</span>
+          <span class="section-tag mode-text-filmmaker">PRODUCTION GEAR & DIRECTORIAL ARSENAL</span>
+          <h2 class="section-title">
+            <span class="mode-text-editor">Mastered Software & <span class="text-accent">Post Tools</span></span>
+            <span class="mode-text-filmmaker">Cinema Gear & <span class="text-accent">Director's Toolkit</span></span>
+          </h2>
+          <p class="section-subtitle mode-text-editor">
+            Harnessing industry-leading post-production software to craft flawless edits, motion graphics, and sound design.
+          </p>
+          <p class="section-subtitle mode-text-filmmaker">
+            From high-end cinema optics to studio-grade lighting systems and audio capture for uncompromising production value.
+          </p>
+          <div class="section-line"></div>
+        </div>
+
+        <!-- Video Editor Software Cards -->
+        <div class="software-grid mode-view-editor">
+          <!-- Adobe Premiere Pro -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap">
+              <img src="assests/adobe-premiere-pro.png" alt="Adobe Premiere Pro Logo" class="software-img">
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Adobe Premiere Pro</h3>
+                <span class="badge-skill">Daily Weapon</span>
+              </div>
+              <p class="software-desc">
+                Primary Non-Linear Editor for long-form films, commercial cuts, multi-cam synchronization, and high-speed timeline assembly.
+              </p>
+              <div class="skill-bar-container">
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" style="width: 98%;"></div>
+                </div>
+              </div>
+              <div class="software-tags">
+                <span>Multi-Cam</span>
+                <span>ProRes 422</span>
+                <span>Audio Sync</span>
+                <span>Dynamic Link</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Adobe After Effects -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap">
+              <img src="assests/after-effects.png" alt="Adobe After Effects Logo" class="software-img">
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Adobe After Effects</h3>
+                <span class="badge-skill">VFX & Motion</span>
+              </div>
+              <p class="software-desc">
+                Motion graphics, 3D camera tracking, rotoscoping, title animations, kinetic typography, and advanced compositing effects.
+              </p>
+              <div class="skill-bar-container">
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" style="width: 92%;"></div>
+                </div>
+              </div>
+              <div class="software-tags">
+                <span>Motion Graphics</span>
+                <span>3D Tracking</span>
+                <span>Rotoscoping</span>
+                <span>VFX</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CapCut Pro -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap">
+              <img src="assests/capcut.png" alt="CapCut Pro Logo" class="software-img">
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>CapCut Pro</h3>
+                <span class="badge-skill">Viral Velocity</span>
+              </div>
+              <p class="software-desc">
+                Rapid short-form social storytelling, viral TikTok/Reels retention hooks, auto-captions styling, and snappy mobile-first edits.
+              </p>
+              <div class="skill-bar-container">
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" style="width: 95%;"></div>
+                </div>
+              </div>
+              <div class="software-tags">
+                <span>Short-Form</span>
+                <span>Viral Hooks</span>
+                <span>Dynamic Captions</span>
+                <span>Trending Rhythms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wondershare Filmora -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap">
+              <img src="assests/wondershare-filmora.png" alt="Wondershare Filmora Logo" class="software-img">
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Wondershare Filmora</h3>
+                <span class="badge-skill">Rapid Production</span>
+              </div>
+              <p class="software-desc">
+                Quick-turnaround event promos, vlog assemblies, stylized asset integration, and client demo presentations.
+              </p>
+              <div class="skill-bar-container">
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" style="width: 90%;"></div>
+                </div>
+              </div>
+              <div class="software-tags">
+                <span>Speed Editing</span>
+                <span>Transitions</span>
+                <span>Audio Ducking</span>
+                <span>Templates</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- DaVinci Resolve (Color & Finishing) -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap davinci-wrap">
+              <div class="color-wheel-icon">
+                <i data-lucide="palette"></i>
+              </div>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>DaVinci Resolve Studio</h3>
+                <span class="badge-skill">Color Grading</span>
+              </div>
+              <p class="software-desc">
+                Node-based color grading, ACES color management, film print emulation (Kodak 2383 / Fuji), skin tone isolation, and Fairlight sound mastering.
+              </p>
+              <div class="skill-bar-container">
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" style="width: 96%;"></div>
+                </div>
+              </div>
+              <div class="software-tags">
+                <span>Log to Rec.709</span>
+                <span>CST Nodes</span>
+                <span>LUT Alchemy</span>
+                <span>Fairlight Audio</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sound Design & Foley -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap sound-wrap">
+              <div class="color-wheel-icon">
+                <i data-lucide="waveform"></i>
+              </div>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Sound Design & Foley Suite</h3>
+                <span class="badge-skill">Audio Immersion</span>
+              </div>
+              <p class="software-desc">
+                Binaural sound effects, cinematic sub-booms, atmospheric room tones, precise dialogue cleaning, and stereo width optimization.
+              </p>
+              <div class="skill-bar-container">
+                <div class="skill-bar-track">
+                  <div class="skill-bar-fill" style="width: 94%;"></div>
+                </div>
+              </div>
+              <div class="software-tags">
+                <span>Sub-bass Impacts</span>
+                <span>Whoosh FX</span>
+                <span>Dialogue Denoise</span>
+                <span>Spatial Stereo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filmmaker Production Gear & Direction Arsenal Cards -->
+        <div class="software-grid mode-view-filmmaker">
+          <!-- Cinema Cameras & Sensors -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap gear-wrap">
+              <i data-lucide="camera" class="gear-icon"></i>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Cinema Cameras & Sensors</h3>
+                <span class="badge-skill">Capture Rig</span>
+              </div>
+              <p class="software-desc">
+                Sony Cinema Line (FX series / Alpha Full-Frame) with 10-bit 4:2:2 S-Log3 and dual native ISO for incredible dynamic range in extreme lighting.
+              </p>
+              <div class="gear-specs">
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> 10-Bit 4:2:2 All-Intra</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> 120 FPS Slow Motion</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> 15+ Stops Dynamic Range</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cinema Prime & Anamorphic Lenses -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap gear-wrap">
+              <i data-lucide="eye" class="gear-icon"></i>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Prime & Cine Glass</h3>
+                <span class="badge-skill">Optical Texture</span>
+              </div>
+              <p class="software-desc">
+                Fast aperture prime lenses (f/1.4, f/1.8) and anamorphic adapters yielding dreamlike creamy bokeh, horizontal streak flares, and painterly depth of field.
+              </p>
+              <div class="gear-specs">
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> 24mm, 35mm, 50mm, 85mm Primes</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> 2.39:1 Anamorphic Aspect Ratios</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Circular & Matte Box ND Filters</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Studio & Location Lighting -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap gear-wrap">
+              <i data-lucide="sun" class="gear-icon"></i>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Lighting Architecture</h3>
+                <span class="badge-skill">Painting with Light</span>
+              </div>
+              <p class="software-desc">
+                High-CRI COB lights, RGB tube wands, parabolic softboxes, diffusion silks, and atmospheric hazers to sculpt depth, texture, and drama.
+              </p>
+              <div class="gear-specs">
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Motivated Key & Rim Lights</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Full Spectrum RGB Immersion</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Haze & Atmospheric Volume</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Camera Movement & Stabilization -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap gear-wrap">
+              <i data-lucide="move" class="gear-icon"></i>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Motion & Stabilization</h3>
+                <span class="badge-skill">Camera Choreography</span>
+              </div>
+              <p class="software-desc">
+                3-Axis electronic gimbals, buttery fluid-head tripods, motorized sliders, and shoulder rigs for organic handheld intimacy.
+              </p>
+              <div class="gear-specs">
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> 3-Axis Precision Gimbal</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Cinema Shoulder Rig</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Dynamic Parallax Tracking</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location Sound & Timecode -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap gear-wrap">
+              <i data-lucide="mic" class="gear-icon"></i>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Location Audio Rig</h3>
+                <span class="badge-skill">Sonic Purity</span>
+              </div>
+              <p class="software-desc">
+                Supercardioid shotgun microphones, wireless broadcast lavaliers with 32-bit float internal backup recording to eliminate clipping.
+              </p>
+              <div class="gear-specs">
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> 32-Bit Float Fail-Safe Audio</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Wireless Dual Mic Systems</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Acoustic Wind Shields & Blimps</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Directorial & Storyboard Suite -->
+          <div class="software-card">
+            <div class="card-glow"></div>
+            <div class="software-icon-wrap gear-wrap">
+              <i data-lucide="scroll" class="gear-icon"></i>
+            </div>
+            <div class="software-info">
+              <div class="software-header">
+                <h3>Screenwriting & Storyboards</h3>
+                <span class="badge-skill">Creative Genesis</span>
+              </div>
+              <p class="software-desc">
+                From high-concept loglines to scene breakdowns, shot lists, floor plans, and visual mood boards that align cast & crew seamlessly.
+              </p>
+              <div class="gear-specs">
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Treatment & Script Formatting</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Shot-by-Shot Storyboards</div>
+                <div class="spec-item"><i data-lucide="check-circle-2"></i> Actor Guidance & Scene Blocking</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PAST WORK SHOWCASE SECTION ==================== -->
+    <section class="section work-section" id="past-work">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag mode-text-editor">CURATED EDITING PORTFOLIO</span>
+          <span class="section-tag mode-text-filmmaker">CINEMATIC FILM FILMOGRAPHY</span>
+          <h2 class="section-title">
+            Featured <span class="text-accent">Past Work</span>
+          </h2>
+          <p class="section-subtitle mode-text-editor">
+            Dive into my video editing work — commercial promos, rhythm cuts, high-octane YouTube edits, and viral reels.
+          </p>
+          <p class="section-subtitle mode-text-filmmaker">
+            Explore my narrative films, visual music pieces, cinematic shorts, and documentary directing reels.
+          </p>
+          <div class="section-line"></div>
+        </div>
+
+        <!-- Official YouTube Playlist Embed Card -->
+        <div class="playlist-embed-card">
+          <div class="playlist-header">
+            <div class="playlist-info">
+              <div class="yt-badge">
+                <i data-lucide="youtube"></i>
+                <span class="mode-text-editor">Official YouTube Editing Playlist</span>
+                <span class="mode-text-filmmaker">Official YouTube Filmmaking Playlist</span>
+              </div>
+              <h3 class="playlist-title mode-text-editor">Watch The Video Editing Showcase</h3>
+              <h3 class="playlist-title mode-text-filmmaker">Watch The Filmmaking & Directing Showcase</h3>
+              <p class="playlist-sub mode-text-editor">
+                Stream Sunny's full curated video editing playlist directly in 4K resolution below:
+              </p>
+              <p class="playlist-sub mode-text-filmmaker">
+                Stream Sunny's official filmmaking shorts and cinematography playlist directly in 4K:
+              </p>
+            </div>
+            <div class="playlist-actions">
+              <!-- Video Editor Playlist Link -->
+              <a href="https://youtube.com/playlist?list=PLGma-5oyS8Fs&si=y3ZMpPwzHqoaWdBj" target="_blank" rel="noopener noreferrer" class="btn btn-yt mode-view-editor">
+                <i data-lucide="external-link"></i>
+                <span>Open Playlist On YouTube</span>
+              </a>
+              <!-- Filmmaker Playlist Link -->
+              <a href="https://youtube.com/playlist?list=PLYGj7Y31_qOg&si=q4FTYg4OHacQU7fA" target="_blank" rel="noopener noreferrer" class="btn btn-yt mode-view-filmmaker">
+                <i data-lucide="external-link"></i>
+                <span>Open Playlist On YouTube</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- YouTube Playlist Preview (replaces broken embed) -->
+          <div class="yt-playlist-preview">
+            <!-- Editor Mode Preview -->
+            <a href="https://youtube.com/playlist?list=PLGma-5oyS8Fs&si=y3ZMpPwzHqoaWdBj" target="_blank" rel="noopener noreferrer" class="yt-preview-link mode-view-editor">
+              <div class="yt-preview-thumb">
+                <img src="https://i.ytimg.com/vi/placeholder/maxresdefault.jpg" alt="Video Editing Playlist" class="yt-thumb-img" onerror="this.style.display='none'">
+                <div class="yt-preview-overlay">
+                  <div class="yt-play-btn">
+                    <i data-lucide="play" class="fill-current"></i>
+                  </div>
+                  <div class="yt-preview-info">
+                    <span class="yt-preview-badge"><i data-lucide="youtube"></i> YouTube Playlist</span>
+                    <p class="yt-preview-title">Sunny — Video Editing Showcase Playlist</p>
+                    <p class="yt-preview-sub">Click to watch on YouTube →</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!-- Filmmaker Mode Preview -->
+            <a href="https://youtube.com/playlist?list=PLYGj7Y31_qOg&si=q4FTYg4OHacQU7fA" target="_blank" rel="noopener noreferrer" class="yt-preview-link mode-view-filmmaker">
+              <div class="yt-preview-thumb">
+                <div class="yt-preview-overlay">
+                  <div class="yt-play-btn">
+                    <i data-lucide="play" class="fill-current"></i>
+                  </div>
+                  <div class="yt-preview-info">
+                    <span class="yt-preview-badge"><i data-lucide="youtube"></i> YouTube Playlist</span>
+                    <p class="yt-preview-title">Sunny — Filmmaking & Directing Showcase</p>
+                    <p class="yt-preview-sub">Click to watch on YouTube →</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Playlist Link Button -->
+        <div class="work-filter-bar">
+          <a href="https://youtube.com/playlist?list=PLGma-5oyS8Fs&si=y3ZMpPwzHqoaWdBj" target="_blank" rel="noopener noreferrer" class="btn btn-yt mode-view-editor playlist-bar-btn">
+            <i data-lucide="youtube"></i>
+            <span>Open Editing Playlist on YouTube</span>
+            <i data-lucide="external-link"></i>
+          </a>
+          <a href="https://youtube.com/playlist?list=PLYGj7Y31_qOg&si=q4FTYg4OHacQU7fA" target="_blank" rel="noopener noreferrer" class="btn btn-yt mode-view-filmmaker playlist-bar-btn">
+            <i data-lucide="youtube"></i>
+            <span>Open Filmmaking Playlist on YouTube</span>
+            <i data-lucide="external-link"></i>
+          </a>
+        </div>
+
+
+
+        <!-- YouTube Callout Banner -->
+        <div class="yt-callout-banner">
+          <div class="callout-left">
+            <img src="assests/ChatGPT Image Oct 6, 2026, 07_31_33 PM.png" alt="Film Cut" class="callout-icon mode-img-editor">
+            <img src="assests/ChatGPT Image Oct 6, 2026, 07_35_14 PM.png" alt="Cinema Script" class="callout-icon mode-img-filmmaker">
+            <div>
+              <h4 class="mode-text-editor">Want to see more Video Editing works?</h4>
+              <h4 class="mode-text-filmmaker">Want to explore complete Short Films & Direction?</h4>
+              <p>Both playlists are constantly updated with fresh cuts, trailers, and film productions.</p>
+            </div>
+          </div>
+          <div class="callout-right">
+            <a href="https://youtube.com/playlist?list=PLGma-5oyS8Fs&si=y3ZMpPwzHqoaWdBj" target="_blank" rel="noopener noreferrer" class="btn btn-primary mode-view-editor">
+              <i data-lucide="play-square"></i>
+              <span>Open Video Editing Playlist</span>
+            </a>
+            <a href="https://youtube.com/playlist?list=PLYGj7Y31_qOg&si=q4FTYg4OHacQU7fA" target="_blank" rel="noopener noreferrer" class="btn btn-primary mode-view-filmmaker">
+              <i data-lucide="play-square"></i>
+              <span>Open Filmmaking Playlist</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== LEARNING RESOURCES SECTION ==================== -->
+    <section class="section learning-section" id="learning">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag mode-text-editor">EDITING KNOWLEDGE HUB</span>
+          <span class="section-tag mode-text-filmmaker">FILMMAKING LEARNING HUB</span>
+          <h2 class="section-title">
+            <span class="mode-text-editor">Learning <span class="text-accent">Resources</span></span>
+            <span class="mode-text-filmmaker">Learning <span class="text-accent">Resources</span></span>
+          </h2>
+          <p class="section-subtitle mode-text-editor">
+            Handpicked YouTube playlists covering video editing techniques, transitions, color grading theory, and storytelling principles.
+          </p>
+          <p class="section-subtitle mode-text-filmmaker">
+            Curated YouTube playlists on cinematography, directing, film theory, visual storytelling, and production mastery.
+          </p>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="learning-cards-grid">
+          <!-- Editor Learning Playlist Card -->
+          <a href="https://youtube.com/playlist?list=PLa_b4s4gDu4E&si=bauS7RFqAvThZCbu" target="_blank" rel="noopener noreferrer" class="learning-card mode-view-editor">
+            <div class="learning-card-glow"></div>
+            <div class="learning-card-icon">
+              <i data-lucide="youtube"></i>
+            </div>
+            <div class="learning-card-body">
+              <span class="learning-badge">YouTube Playlist</span>
+              <h3 class="learning-title">Video Editing Learning Playlist</h3>
+              <p class="learning-desc">Master cuts, transitions, pacing, color grading, and motion graphics through this curated educational playlist.</p>
+              <div class="learning-footer">
+                <span class="learning-cta">
+                  Watch Playlist
+                  <i data-lucide="arrow-up-right"></i>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Filmmaker Learning Playlist Card -->
+          <a href="https://youtube.com/playlist?list=PLR4nFmsOKvdU&si=0cXB3XsJZC1k_VUq" target="_blank" rel="noopener noreferrer" class="learning-card mode-view-filmmaker">
+            <div class="learning-card-glow"></div>
+            <div class="learning-card-icon">
+              <i data-lucide="youtube"></i>
+            </div>
+            <div class="learning-card-body">
+              <span class="learning-badge">YouTube Playlist</span>
+              <h3 class="learning-title">Filmmaking & Direction Learning Playlist</h3>
+              <p class="learning-desc">Explore cinematography, directing techniques, visual storytelling, and camera craft through this curated filmmaking playlist.</p>
+              <div class="learning-footer">
+                <span class="learning-cta">
+                  Watch Playlist
+                  <i data-lucide="arrow-up-right"></i>
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== INTERACTIVE COLOR GRADING & EDIT LAB ==================== -->
+    <section class="section grading-section" id="grading-lab">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">TRANSFORMATION LAB</span>
+          <p class="section-subtitle">
+            Drag the comparison slider left and right to see the dramatic difference between flat unedited footage and Sunny's final luxury color grade.
+          </p>
+          <div class="section-line"></div>
+        </div>
+
+        <!-- Interactive Before/After Split Comparison Slider -->
+        <div class="compare-container" id="compareContainer">
+          <div class="compare-image-wrap">
+            <!-- After: Final Cinematic Grade (Bottom Layer) -->
+            <img src="assests/luxury_cinema_backdrop.jpg" alt="Final Cinematic Color Grade" class="compare-img compare-after">
+            
+            <!-- Before: Flat Log / Raw Footage (Top Layer Clipped) -->
+            <div class="compare-before-wrapper" id="compareBeforeWrapper">
+              <img src="assests/luxury_cinema_backdrop.jpg" alt="Flat Log Unedited Footage" class="compare-img compare-before">
+              <span class="compare-label before-label">FLAT LOG FOOTAGE</span>
+            </div>
+            
+            <span class="compare-label after-label">CINEMATIC GRADE (ACES / 35mm)</span>
+
+            <!-- Interactive Scrubber Handle -->
+            <div class="compare-handle" id="compareHandle">
+              <div class="handle-line"></div>
+              <div class="handle-circle">
+                <i data-lucide="chevrons-left-right"></i>
+              </div>
+              <div class="handle-line"></div>
+            </div>
+          </div>
+
+          <!-- Color Grading Stats Bar -->
+          <div class="grading-specs-bar">
+            <div class="spec-pill">
+              <span class="pill-dot red"></span>
+              <span>LUT Alchemy: Kodak 2383 Emulation</span>
+            </div>
+            <div class="spec-pill">
+              <span class="pill-dot green"></span>
+              <span>Color Space: Davinci Wide Gamut / ACES</span>
+            </div>
+            <div class="spec-pill">
+              <span class="pill-dot blue"></span>
+              <span>Skin Tone Isolation & Halation</span>
+            </div>
+            <div class="spec-pill">
+              <span class="pill-dot gold"></span>
+              <span>Anamorphic Flare Enhancements</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CLIENT REVIEWS & SATISFACTION ==================== -->
+    <section class="section reviews-section" id="reviews">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag mode-text-editor">CLIENT TRUST & SATISFACTION</span>
+          <span class="section-tag mode-text-filmmaker">DIRECTOR COLLABORATIONS & PRAISE</span>
+          <h2 class="section-title">
+            What Creators & Directors <span class="text-accent">Say</span>
+          </h2>
+          <p class="section-subtitle">
+            Real feedback from YouTube creators, music artists, and indie film producers who trust Sunny with their visual stories.
+          </p>
+          <div class="section-line"></div>
+        </div>
+
+        <!-- Overall Satisfaction Score Card -->
+        <div class="satisfaction-highlight-card">
+          <div class="satisfaction-score-wrap">
+            <span class="sat-huge-val" id="reviewsSatRate">99%</span>
+            <div>
+              <div class="sat-stars-row">★★★★★</div>
+              <span class="sat-sub-text">Average 5.0 Star Rating Across All Editing & Film Productions</span>
+            </div>
+          </div>
+          <div class="sat-actions-right">
+            <div class="sat-badge-tag">
+              <i data-lucide="shield-check"></i>
+              <span>100% Client Satisfaction & On-Time Delivery Guarantee</span>
+            </div>
+            <button type="button" class="btn-sat-add-review" id="btnSatWriteReview" title="Leave a Client Review">
+              <i data-lucide="edit-3"></i>
+              <span>Write a Review</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Reviews Grid -->
+        <div class="reviews-portfolio-grid" id="portfolioReviewsGrid">
+          <!-- Populated dynamically from localStorage via main.js -->
+        </div>
+
+        <!-- ==================== REVIEW CTA (ABOVE CONTACT ME) ==================== -->
+        <div class="reviews-cta-wrap">
+          <div class="reviews-cta-card">
+            <div class="reviews-cta-left">
+              <div class="reviews-cta-icon-badge">
+                <i data-lucide="star"></i>
+              </div>
+              <div class="reviews-cta-text">
+                <h3 class="reviews-cta-heading">Collaborated With Sunny?</h3>
+                <p class="reviews-cta-desc">Share your client feedback and publish your review directly to this portfolio.</p>
+              </div>
+            </div>
+            <div class="reviews-cta-actions">
+              <button type="button" class="btn btn-primary btn-review-live" id="btnOpenLiveReviewModal" title="Leave a Review directly on the Portfolio">
+                <i data-lucide="star"></i>
+                <span>Write a Review</span>
+                <i data-lucide="edit-3"></i>
+              </button>
+              <a href="admin.html?tab=tabReviews" class="btn-review-dash-link" title="Owner Admin Dashboard">
+                <i data-lucide="shield"></i>
+                <span>Dashboard</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT ME SECTION ==================== -->
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag mode-text-editor">START AN EDITING PROJECT</span>
+          <span class="section-tag mode-text-filmmaker">BOOK A FILM SHOOT OR DIRECTION</span>
+          <h2 class="section-title">
+            Let's Bring Your <span class="text-accent">Vision To Life</span>
+          </h2>
+          <p class="section-subtitle">
+            Have a project in mind, need a high-impact edit, or want to collaborate on a film? Get in touch directly — I respond within 24 hours.
+          </p>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Left: Direct Contact Information Cards -->
+          <div class="contact-cards-col">
+            <!-- Email Card -->
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i data-lucide="mail"></i>
+              </div>
+              <div class="contact-card-info">
+                <span class="card-subtitle">SEND AN EMAIL</span>
+                <a href="mailto:srujanjai2243@gmail.com" class="card-main-val">srujanjai2243@gmail.com</a>
+                <p class="card-note">Perfect for detailed project briefs, footage links & timeline inquiries.</p>
+              </div>
+              <button class="btn-copy" data-copy="srujanjai2243@gmail.com" title="Copy Email to Clipboard">
+                <i data-lucide="copy"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+
+            <!-- Phone / Mobile Card -->
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i data-lucide="phone-call"></i>
+              </div>
+              <div class="contact-card-info">
+                <span class="card-subtitle">DIRECT PHONE / MOBILE</span>
+                <a href="tel:+918106904433" class="card-main-val">+91 8106904433</a>
+                <p class="card-note">Available for calls & urgent production requirements.</p>
+              </div>
+              <button class="btn-copy" data-copy="+918106904433" title="Copy Phone Number">
+                <i data-lucide="copy"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+
+            <!-- WhatsApp Direct Card -->
+            <div class="contact-card whatsapp-special-card">
+              <div class="contact-card-icon wa-icon">
+                <i data-lucide="message-circle"></i>
+              </div>
+              <div class="contact-card-info">
+                <span class="card-subtitle">WHATSAPP CHAT</span>
+                <span class="card-main-val">+91 8106904433</span>
+                <p class="card-note">Instant messaging for quick questions, quotes, and portfolio reviews.</p>
+              </div>
+              <a href="https://wa.me/918106904433?text=Hi%20Sunny,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project!" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-action">
+                <i data-lucide="send"></i>
+                <span>Chat</span>
+              </a>
+            </div>
+
+            <!-- Quick Availability Badge -->
+            <div class="availability-card">
+              <div class="avail-indicator">
+                <span class="ping"></span>
+                <span class="dot"></span>
+              </div>
+              <div>
+                <h5>Currently Available For Projects</h5>
+                <p>Worldwide Remote Video Editing & On-Location Shoot Direction.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Inquiry Form -->
+          <div class="contact-form-col">
+            <div class="form-wrapper">
+              <div class="form-header">
+                <h3>Send a Message</h3>
+                <p>Fill out the form below and let's craft something cinematic together.</p>
+              </div>
+
+              <form id="contactForm" class="contact-form" onsubmit="return false;">
+                <div class="form-group-row">
+                  <div class="form-group">
+                    <label for="senderName">Your Name *</label>
+                    <input type="text" id="senderName" name="name" placeholder="e.g. Christopher Nolan" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="senderEmail">Your Email *</label>
+                    <input type="email" id="senderEmail" name="email" placeholder="name@company.com" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="projectType">Service Needed *</label>
+                  <select id="projectType" name="service" required>
+                    <option value="video-editing">Video Editing (Commercial, YouTube, Reels)</option>
+                    <option value="color-grading">Color Grading & Finishing (DaVinci Resolve)</option>
+                    <option value="filmmaking">Filmmaking & Directing (Short Film, Music Video)</option>
+                    <option value="cinematography">Cinematography & Camera Operation</option>
+                    <option value="vfx-motion">Motion Graphics & Title Design</option>
+                    <option value="full-production">Full Production (Concept to Final Render)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="projectBudget">Estimated Timeline or Scope</label>
+                  <input type="text" id="projectBudget" name="timeline" placeholder="e.g. 1-2 weeks / Urgent turnaround">
+                </div>
+
+                <div class="form-group">
+                  <label for="senderMessage">Project Details & Vision *</label>
+                  <textarea id="senderMessage" name="message" rows="4" placeholder="Tell Sunny about your vision, links to reference videos, or raw footage details..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-submit" id="btnSubmitForm">
+                  <i data-lucide="send"></i>
+                  <span>Send Project Inquiry</span>
+                </button>
+
+                <div id="formFeedback" class="form-feedback hidden"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#home" class="brand-logo">
+            <span class="brand-name">SUNNY</span>
+            <span class="brand-dot"></span>
+          </a>
+          <p class="footer-tagline">
+            Professional Video Editor & Cinematic Filmmaker. Crafting high-impact visuals that inspire, resonate, and endure.
+          </p>
+        </div>
+
+        <div class="footer-links-group">
+          <h5>Quick Navigation</h5>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Sunny</a></li>
+            <li><a href="#software">Software & Gear</a></li>
+            <li><a href="#past-work">Past Work</a></li>
+            <li><a href="#learning">Learning Resources</a></li>
+            <li><a href="#grading-lab">Grading Lab</a></li>
+            <li><a href="#reviews">Client Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="admin.html" style="color:var(--filmmaker-primary);"><i data-lucide="lock" style="width:13px; height:13px; vertical-align:middle; margin-right:4px;"></i> Admin Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-group">
+          <h5>Direct Playlists</h5>
+          <ul>
+            <li>
+              <a href="https://youtube.com/playlist?list=PLGma-5oyS8Fs&si=y3ZMpPwzHqoaWdBj" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="scissors"></i> Video Editing Playlist
+              </a>
+            </li>
+            <li>
+              <a href="https://youtube.com/playlist?list=PLa_b4s4gDu4E&si=bauS7RFqAvThZCbu" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="book-open"></i> Editing Learning Playlist
+              </a>
+            </li>
+            <li>
+              <a href="https://youtube.com/playlist?list=PLYGj7Y31_qOg&si=q4FTYg4OHacQU7fA" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="clapperboard"></i> Filmmaking Playlist
+              </a>
+            </li>
+            <li>
+              <a href="https://youtube.com/playlist?list=PLR4nFmsOKvdU&si=0cXB3XsJZC1k_VUq" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="graduation-cap"></i> Filmmaking Learning Playlist
+              </a>
+            </li>
+            <li>
+              <a href="mailto:srujanjai2243@gmail.com">
+                <i data-lucide="mail"></i> srujanjai2243@gmail.com
+              </a>
+            </li>
+            <li>
+              <a href="tel:+918106904433">
+                <i data-lucide="phone"></i> +91 8106904433
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div style="display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+          <p class="copyright-text">
+            &copy; 2026 <strong>Sunny</strong>. All Rights Reserved. Crafted with cinematic passion and premier luxury design.
+          </p>
+          <a href="admin.html" class="admin-portal-link" title="Owner Admin Dashboard">
+            <i data-lucide="shield"></i>
+            <span>Admin Portal</span>
+          </a>
+        </div>
+        <div class="footer-back-top">
+          <a href="#home" class="back-to-top-btn" title="Back to Top">
+            <span>Back to top</span>
+            <i data-lucide="arrow-up"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== LIVE PORTFOLIO LEAVE A REVIEW MODAL ==================== -->
+  <div class="live-review-modal" id="liveReviewModal" aria-hidden="true">
+    <div class="live-modal-backdrop" id="liveReviewBackdrop"></div>
+    <div class="live-modal-content">
+      <div class="live-modal-header">
+        <div class="live-modal-title-wrap">
+          <div class="live-modal-star-badge">
+            <i data-lucide="star"></i>
+          </div>
+          <div>
+            <h3 class="live-modal-title">Share Your Experience</h3>
+            <p class="live-modal-subtitle">Leave a verified review for Sunny's editing or filmmaking productions.</p>
+          </div>
+        </div>
+        <button type="button" class="live-modal-close" id="btnCloseLiveReviewModal" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="liveReviewForm" class="live-review-form">
+        <!-- Interactive Star Picker -->
+        <div class="live-star-rating-select">
+          <label class="live-form-label">Your Rating *</label>
+          <div class="live-stars-interactive" id="liveStarPicker">
+            <button type="button" class="star-btn active" data-rating="1" aria-label="1 star">★</button>
+            <button type="button" class="star-btn active" data-rating="2" aria-label="2 stars">★</button>
+            <button type="button" class="star-btn active" data-rating="3" aria-label="3 stars">★</button>
+            <button type="button" class="star-btn active" data-rating="4" aria-label="4 stars">★</button>
+            <button type="button" class="star-btn active" data-rating="5" aria-label="5 stars">★</button>
+            <span class="star-rating-caption" id="starRatingCaption">5.0 Star Rating</span>
+          </div>
+          <input type="hidden" id="liveRevRating" value="5">
+        </div>
+
+        <div class="live-form-group">
+          <label class="live-form-label" for="liveRevName">Your Name *</label>
+          <input type="text" id="liveRevName" class="live-form-input" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="live-form-group">
+          <label class="live-form-label" for="liveRevText">Your Testimonial / Feedback *</label>
+          <textarea id="liveRevText" class="live-form-textarea" placeholder="How was your experience working with Sunny? (Pacing, communication, turnaround, cinematic quality...)" rows="4" required></textarea>
+        </div>
+
+        <div class="live-modal-actions">
+          <button type="button" class="btn btn-secondary" id="btnCancelLiveReview">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-submit-live-review" id="btnSubmitLiveReview">
+            <i data-lucide="send"></i>
+            <span>Publish Review to Portfolio</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container for Copied Links -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Firebase SDKs (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+
+  <!-- Firebase Cloud Config & Service -->
+  <script src="js/firebase-config.js"></script>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

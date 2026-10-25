@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Sunny Portfolio Control Center</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ==================== LOGIN VIEW ==================== -->
+  <div class="login-view" id="loginView">
+    <div class="login-card">
+      <div class="login-header">
+        <a href="index.html" class="login-logo">
+          <span>SUNNY</span>
+          <span class="login-logo-dot"></span>
+        </a>
+        <div>
+          <span class="login-badge">PORTFOLIO CONTROL CENTER</span>
+        </div>
+        <p class="login-subtitle">Sign in to manage work counts, client reviews, and form inquiries</p>
+      </div>
+
+      <div class="login-alert" id="loginAlert"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="usernameInput">Admin Username</label>
+          <div class="input-with-icon">
+            <i data-lucide="user"></i>
+            <input type="text" id="usernameInput" class="input-field" placeholder="Enter username" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="passwordInput">Password</label>
+          <div class="input-with-icon">
+            <i data-lucide="lock"></i>
+            <input type="password" id="passwordInput" class="input-field" placeholder="Enter password" required autocomplete="current-password">
+            <button type="button" class="toggle-pwd-btn" id="togglePasswordBtn" aria-label="Toggle password visibility">
+              <i data-lucide="eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btnLoginSubmit">
+          <i data-lucide="shield-check"></i>
+          <span>Unlock Admin Dashboard</span>
+        </button>
+      </form>
+
+      <div class="login-footer-links">
+        <a href="index.html">
+          <i data-lucide="arrow-left"></i>
+          <span>Return to Live Portfolio</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DASHBOARD VIEW ==================== -->
+  <div class="dashboard-view" id="dashboardView">
+    
+    <!-- Top Navbar -->
+    <header class="dash-navbar">
+      <div class="dash-nav-container">
+        <div class="dash-brand">
+          <a href="index.html" class="dash-brand-name">SUNNY</a>
+          <span class="dash-brand-tag">Admin Console</span>
+        </div>
+
+        <div class="dash-nav-actions">
+          <div class="firebase-status-badge" id="firebaseStatusBadge" title="Connected to Firebase Cloud Project: sunnyportfilo">
+            <span class="fb-dot"></span>
+            <span>Firebase Cloud Live</span>
+          </div>
+          <a href="index.html" target="_blank" class="btn-ghost" title="Open Portfolio in new tab">
+            <i data-lucide="external-link"></i>
+            <span>View Live Portfolio</span>
+          </a>
+          <button class="btn-ghost btn-logout" id="btnLogout">
+            <i data-lucide="log-out"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <main class="dash-main">
+
+      <!-- Left Sidebar Navigation -->
+      <aside class="dash-sidebar">
+        <button class="sidebar-tab-btn active" data-tab="tabOverview">
+          <div class="sidebar-tab-btn-content">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Overview</span>
+          </div>
+        </button>
+
+        <button class="sidebar-tab-btn" data-tab="tabInquiries">
+          <div class="sidebar-tab-btn-content">
+            <i data-lucide="mail"></i>
+            <span>Form Inquiries</span>
+          </div>
+          <span class="sidebar-badge" id="sidebarInquiryBadge" style="display:none;">0 New</span>
+        </button>
+
+        <button class="sidebar-tab-btn" data-tab="tabStats">
+          <div class="sidebar-tab-btn-content">
+            <i data-lucide="trending-up"></i>
+            <span>Work Done & Stats</span>
+          </div>
+        </button>
+
+        <button class="sidebar-tab-btn" data-tab="tabReviews">
+          <div class="sidebar-tab-btn-content">
+            <i data-lucide="star"></i>
+            <span>Client Reviews</span>
+          </div>
+        </button>
+
+        <button class="sidebar-tab-btn" data-tab="tabControls">
+          <div class="sidebar-tab-btn-content">
+            <i data-lucide="sliders"></i>
+            <span>Portfolio Controls</span>
+          </div>
+        </button>
+
+        <div class="sidebar-info-card">
+          <h5><i data-lucide="check-circle" style="width:14px; height:14px; vertical-align:middle; color:var(--green);"></i> Real-Time Sync</h5>
+          <p>Changes saved here automatically update your portfolio across all browser sessions.</p>
+        </div>
+      </aside>
+
+      <!-- Right Tab Content Panes -->
+      <section class="dash-content">
+
+        <!-- ================= TAB 1: OVERVIEW ================= -->
+        <div class="tab-pane active" id="tabOverview">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Dashboard Overview</h1>
+              <p class="pane-subtitle">Live analytics, project counts, and recent contact inquiries.</p>
+            </div>
+            <a href="index.html" target="_blank" class="btn-ghost">
+              <i data-lucide="eye"></i>
+              <span>Preview Live Site</span>
+            </a>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-title">Total Works Done</span>
+                <div class="kpi-icon-wrap gold"><i data-lucide="clapperboard"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiTotalWorks">185+</div>
+              <div class="kpi-note">Editor & Filmmaker productions</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-title">Client Satisfaction</span>
+                <div class="kpi-icon-wrap cyan"><i data-lucide="smile"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiSatisfaction">99%</div>
+              <div class="kpi-note">5-Star verified client reviews</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-title">Form Submissions</span>
+                <div class="kpi-icon-wrap purple"><i data-lucide="inbox"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiInquiries">2</div>
+              <div class="kpi-note">Received from contact forms</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-top">
+                <span class="kpi-title">Featured Reviews</span>
+                <div class="kpi-icon-wrap green"><i data-lucide="award"></i></div>
+              </div>
+              <div class="kpi-value" id="kpiReviews">4</div>
+              <div class="kpi-note">Published on portfolio</div>
+            </div>
+          </div>
+
+          <!-- Recent Inquiries Section -->
+          <div class="admin-card">
+            <div class="card-title-bar">
+              <h3>Recent Form Inquiries</h3>
+              <button class="btn-ghost" onclick="document.querySelector('[data-tab=\'tabInquiries\']').click()">
+                <span>View All Inquiries</span>
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+            <div id="recentInquiriesList"></div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 2: INQUIRIES & FORM SUBMISSIONS ================= -->
+        <div class="tab-pane" id="tabInquiries">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Contact Form Inquiries</h1>
+              <p class="pane-subtitle">Direct submissions labeled by their origin form (Filmmaking vs Video Editing).</p>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="btn-ghost" id="btnAddTestEditorInquiry" title="Simulate a message from the Video Editor form">
+                <i data-lucide="plus"></i>
+                <span>+ Test Editor Inquiry</span>
+              </button>
+              <button class="btn-ghost" id="btnAddTestFilmmakerInquiry" title="Simulate a message from the Filmmaking form">
+                <i data-lucide="plus"></i>
+                <span>+ Test Filmmaking Inquiry</span>
+              </button>
+              <button class="btn-ghost" id="btnClearInquiries" style="color:#f87171;">
+                <i data-lucide="trash-2"></i>
+                <span>Clear All</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="filter-pills-bar" id="inquiryFilters">
+            <button class="filter-pill active" data-filter="all">
+              <i data-lucide="layers"></i>
+              <span>All Submissions</span>
+            </button>
+            <button class="filter-pill" data-filter="editor">
+              <i data-lucide="scissors"></i>
+              <span>✂️ Video Editor Form</span>
+            </button>
+            <button class="filter-pill" data-filter="filmmaker">
+              <i data-lucide="clapperboard"></i>
+              <span>🎬 Filmmaking Form</span>
+            </button>
+          </div>
+
+          <!-- Inquiries List -->
+          <div class="inquiries-list" id="inquiriesFullList"></div>
+        </div>
+
+        <!-- ================= TAB 3: WORK DONE & STATS MANAGER ================= -->
+        <div class="tab-pane" id="tabStats">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Work Done & Stats Manager</h1>
+              <p class="pane-subtitle">Edit the exact number of projects completed and showcase stats displayed on your live portfolio.</p>
+            </div>
+          </div>
+
+          <form id="statsForm" class="admin-card">
+            <div class="card-title-bar">
+              <h3>Portfolio Project Counts & Metrics</h3>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="statEditorWorks">Video Editor — Works Completed</label>
+                <input type="text" id="statEditorWorks" class="input-field" placeholder="e.g. 150+" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="statEditorWorksSub">Video Editor — Subtitle / Label</label>
+                <input type="text" id="statEditorWorksSub" class="input-field" placeholder="e.g. Commercial & Social Edits">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="statFilmWorks">Filmmaker — Productions Directed</label>
+                <input type="text" id="statFilmWorks" class="input-field" placeholder="e.g. 35+" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="statFilmWorksSub">Filmmaker — Subtitle / Label</label>
+                <input type="text" id="statFilmWorksSub" class="input-field" placeholder="e.g. Short Films & Directorial Works">
+              </div>
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label" for="statYearsExp">Years of Experience</label>
+                <input type="text" id="statYearsExp" class="input-field" placeholder="e.g. 3+" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="statSatisfaction">Client Satisfaction Rate</label>
+                <input type="text" id="statSatisfaction" class="input-field" placeholder="e.g. 99%" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="statFootageCut">Footage Rendered / Cut</label>
+                <input type="text" id="statFootageCut" class="input-field" placeholder="e.g. 1,500+ hrs" required>
+              </div>
+            </div>
+
+            <!-- Live Preview -->
+            <div class="preview-box">
+              <div class="preview-box-header">
+                <i data-lucide="eye"></i>
+                <span>Live Portfolio Stats Preview</span>
+              </div>
+              <div class="preview-stats-bar">
+                <div class="preview-stat-item">
+                  <div class="preview-stat-val" id="prevEditorVal">150+</div>
+                  <div class="preview-stat-lbl">Editor Projects</div>
+                </div>
+                <div class="preview-stat-item">
+                  <div class="preview-stat-val" id="prevFilmVal">35+</div>
+                  <div class="preview-stat-lbl">Films Directed</div>
+                </div>
+                <div class="preview-stat-item">
+                  <div class="preview-stat-val" id="prevSatisfactionVal">99%</div>
+                  <div class="preview-stat-lbl">Satisfaction Rate</div>
+                </div>
+                <div class="preview-stat-item">
+                  <div class="preview-stat-val" id="prevFootageVal">1,500+</div>
+                  <div class="preview-stat-lbl">Hours Cut</div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 1.5rem; max-width: 280px;">
+              <i data-lucide="save"></i>
+              <span>Save Changes to Portfolio</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- ================= TAB 4: CLIENT REVIEWS & SATISFACTION ================= -->
+        <div class="tab-pane" id="tabReviews">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Client Reviews & Satisfaction</h1>
+              <p class="pane-subtitle">Manage client testimonials, 5-star feedback, and satisfaction ratings shown on the portfolio.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenAddReview" style="margin:0; width:auto; padding:0.65rem 1.25rem;">
+              <i data-lucide="plus-circle"></i>
+              <span>Add New Review</span>
+            </button>
+          </div>
+
+          <div class="reviews-grid" id="reviewsAdminList"></div>
+        </div>
+
+        <!-- ================= TAB 5: PORTFOLIO CONTROLS ================= -->
+        <div class="tab-pane" id="tabControls">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Portfolio Controls & Settings</h1>
+              <p class="pane-subtitle">Global toggles, availability status, and site-wide preferences.</p>
+            </div>
+          </div>
+
+          <form id="portfolioControlsForm" class="admin-card">
+            <div class="card-title-bar">
+              <h3>Availability & Custom Notices</h3>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="controlAvailability">Current Booking Availability</label>
+              <select id="controlAvailability" class="form-select">
+                <option value="available">🟢 Currently Available For Projects (Remote & On-Location)</option>
+                <option value="busy">🟡 Booked / Limited Availability (Waitlist Open)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="controlAnnouncement">Optional Top Banner Announcement</label>
+              <input type="text" id="controlAnnouncement" class="input-field" placeholder="e.g. Now accepting bookings for Q4 commercial projects & music videos!">
+              <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem;">Leave blank if no announcement banner is needed.</p>
+            </div>
+
+            <button type="submit" class="btn-primary" style="max-width: 240px;">
+              <i data-lucide="check"></i>
+              <span>Update Controls</span>
+            </button>
+          </form>
+
+          <div class="admin-card" style="border-color: rgba(239, 68, 68, 0.2);">
+            <div class="card-title-bar">
+              <h3 style="color:#fca5a5;">Restore Defaults</h3>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:1.25rem;">
+              Reset all work counts, inquiries, and reviews back to the initial demo showcase dataset.
+            </p>
+            <button type="button" class="btn-action delete" id="btnResetDefaults" style="padding:0.75rem 1.25rem;">
+              <i data-lucide="refresh-cw"></i>
+              <span>Reset Everything to Defaults</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= ADD REVIEW MODAL ================= -->
+  <div class="admin-modal" id="reviewModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add Client Review</h3>
+        <button type="button" class="modal-close-btn" id="btnCloseReviewModal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="addReviewForm">
+        <div class="form-group">
+          <label class="form-label" for="revName">Client Name *</label>
+          <input type="text" id="revName" class="input-field" placeholder="e.g. Marcus Thorne" required>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="revRole">Role / Title *</label>
+            <input type="text" id="revRole" class="input-field" placeholder="e.g. Producer / Creator" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="revCompany">Company / Channel *</label>
+            <input type="text" id="revCompany" class="input-field" placeholder="e.g. Neon Horizon Studios" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="revCategory">Project Category *</label>
+            <select id="revCategory" class="form-select">
+              <option value="editor">Video Editing & VFX</option>
+              <option value="filmmaker">Filmmaking & Directing</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="revRating">Rating *</label>
+            <select id="revRating" class="form-select">
+              <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+              <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="revText">Client Review Quote *</label>
+          <textarea id="revText" class="form-textarea" placeholder="What did the client say about Sunny's work?" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          <i data-lucide="plus"></i>
+          <span>Publish Review to Portfolio</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="admin-toast-container" id="adminToastContainer"></div>
+
+  <!-- Firebase SDKs (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+
+  <!-- Firebase Cloud Config & Service -->
+  <script src="js/firebase-config.js"></script>
+
+  <!-- Admin Application Script -->
+  <script src="js/admin.js"></script>
+</body>
+</html>
